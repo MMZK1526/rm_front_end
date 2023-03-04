@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       appBar: AppBar(
         title: const Text('Register Machine Simulator'),
         bottom: TabBar(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           tabs: const [
             Tab(icon: Icon(Icons.book_outlined), text: 'Introduction'),
