@@ -1,6 +1,6 @@
 {
-    "name": "rm_front_end",
-    "short_name": "rm_front_end",
+    "name": "Register Machine Simulator",
+    "short_name": "RMS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
