@@ -79,6 +79,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       body: Center(
         child: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [
             Markdown(
