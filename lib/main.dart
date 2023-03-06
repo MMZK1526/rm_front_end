@@ -1,9 +1,5 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:rm_front_end/constants/my_markdown_texts.dart';
+import 'package:rm_front_end/introduction_tab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +30,6 @@ final theme = ThemeData.dark().copyWith(
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,14 +77,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [
-            Markdown(
-              data: MyMarkdownTexts.introMarkdown,
-              onTapLink: (text, href, title) {
-                if (href != null) {
-                  html.window.open(href, 'new tab');
-                }
-              },
-            ),
+            const IntroductionTab(),
             Center(child: Text('TODO')),
             Center(child: Text('TODO: There will be examples!')),
           ],
