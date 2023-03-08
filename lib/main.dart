@@ -7,11 +7,7 @@ void main() {
 }
 
 final theme = ThemeData.dark().copyWith(
-  colorScheme: ColorScheme.fromSwatch(
-    primarySwatch: Colors.blue,
-    brightness: Brightness.dark,
-    accentColor: Colors.white,
-  ),
+  useMaterial3: true,
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
     contentPadding: EdgeInsets.symmetric(
@@ -33,8 +29,14 @@ final theme = ThemeData.dark().copyWith(
       height: 1.5,
     ),
     titleMedium: TextStyle(
-      fontSize: 16.0,
+      fontSize: 24.0,
       color: Colors.grey.shade100,
+      fontWeight: FontWeight.bold,
+      height: 1.5,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 18.0,
+      color: Colors.grey.shade50,
       height: 1.5,
     ),
     bodyMedium: TextStyle(

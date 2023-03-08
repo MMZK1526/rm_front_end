@@ -1,5 +1,7 @@
 enum MyText {
-  convert;
+  convert,
+  download,
+  reset,
 }
 
 extension MyTextExtension on MyText {
@@ -7,6 +9,10 @@ extension MyTextExtension on MyText {
     switch (this) {
       case MyText.convert:
         return 'Convert';
+      case MyText.download:
+        return 'Download';
+      case MyText.reset:
+        return 'Reset';
       default:
         return 'Unknown';
     }
