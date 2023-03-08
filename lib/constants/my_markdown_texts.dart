@@ -43,5 +43,56 @@ As a result, a naïve Register Machine simulation is pretty useless except for e
 This optimisation also makes simulating the Universal Register Machine(a Register Machine that can simulate all Register Machines) possible.
 
 If an infinite loop is detected, the simulator would end immediately and report the machine is never going to terminate. Of course, it is not able to detect all infinite loops since the Halting Problem is undecidable.
+
+### Gödelisation
+
+Intriguingly, there is a ONE TO ONE correspondence between natural number and Register Machines (**Gödelisation**). In other words, any natural number uniquely represents a Register Machine and *vice versa*.  
+
+The foundation of Gödelisation lies in the following functions: let `p(x, y) = 2^x + (2y + 1)` and `p'(x, y) = p(x, y) - 1`, it can be proven that the former is a bijection between pairs of natural number to positive number and the latter a bijection to natural number:
+
+p'|p|(x, y)
+----|---|----
+0|1|(0, 0)
+1|2|(1, 0)
+2|3|(0, 1)
+3|4|(2, 0)
+4|5|(0, 2)
+5|6|(1, 1)
+6|7|(0, 3)
+7|8|(3, 0)
+8|9|(0, 4)
+
+With `p`, we can recursively define a function, `s`, that is a bijection between finite lists of natural number and singular natural number: `s([]) = 0; s(x : xs) = p(x, s(xs))`:
+
+s|xs|s|xs
+----|---|----|---
+0|[]|10|[1, 1]
+1|[0]|11|[0, 0, 1]
+2|[1]|12|[2, 0]
+3|[0, 0]|13|[0, 1, 0]
+4|[2]|14|[1, 0, 0]
+5|[0, 1]|15|[0, 0, 0, 0]
+6|[1, 0]|16|[4]
+7|[0, 0, 0]|17|[0, 3]
+8|[3]|18|[1, 2]
+9|[0, 2]|19|[0, 0, 2]
+
+There is a trick to "decode" a number to a list of numbers, namely expressing the number in binary form and count number of zeros between ones from right to left. For example, 998 in binary is 1111100110, and if we count from the rightmost digit, it starts with 1 zero before reaching a one, then 0 zeros due to the consecutive ones, then 2 zeros, and so on. The result is then [1, 0, 2, 0, 0, 0, 0].
+
+With the functions `p` and `p'`, we can then encode each line of a Register Machine. If the instruction is `HALT`, encode it with 0; if it is an increment, then it has a register number `r` with a line number `l`, and we encode it with `p(2r, l)`; if it is a decrement, then it has a register number `r` with two line numbers `l1` and `l2`, and we encode it with `p(2r + 1, p'(l1, l2))`.
+
+Finally, once we encode each line of a Register Machine into a number, we can then encode the list of number into a single number by `s`.
+
+If we convert a natual number to a Register Machine, then most likely it will contain instruction that makes no sense, for example jumping to a non-existing line. This does not cause any problem, however, since we treat bad line number as Halt instructions.
+
+Go to the "Gödel Number Conversion" tab for automated conversion tools.
+""";
+
+  static const decodeMarkdown = """
+# Gödelisation
+
+## Decoding
+
+Enter a non-negative number below and convert it to the corresponding pair, list, and Register Machine.
 """;
 }

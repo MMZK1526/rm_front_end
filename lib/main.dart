@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rm_front_end/conversion_tab.dart';
 import 'package:rm_front_end/introduction_tab.dart';
 
 void main() {
@@ -6,6 +7,22 @@ void main() {
 }
 
 final theme = ThemeData.dark().copyWith(
+  // buttonTheme: ButtonThemeData(
+  //   buttonColor: Colors.blue,
+  //   textTheme: ButtonTextTheme.primary,
+  // ),
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.blue,
+    brightness: Brightness.dark,
+  ),
+  useMaterial3: true,
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
+    contentPadding: EdgeInsets.symmetric(
+      vertical: 12.0,
+      horizontal: 20.0,
+    ),
+  ),
   textTheme: TextTheme(
     headlineSmall: TextStyle(
       fontSize: 36.0,
@@ -17,6 +34,11 @@ final theme = ThemeData.dark().copyWith(
       fontSize: 28.0,
       color: Colors.grey.shade100,
       fontWeight: FontWeight.bold,
+      height: 1.5,
+    ),
+    titleMedium: TextStyle(
+      fontSize: 16.0,
+      color: Colors.grey.shade100,
       height: 1.5,
     ),
     bodyMedium: TextStyle(
@@ -78,7 +100,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           controller: _tabController,
           children: [
             const IntroductionTab(),
-            Center(child: Text('TODO')),
+            const ConversionTab(),
             Center(child: Text('TODO: There will be examples!')),
           ],
         ),
