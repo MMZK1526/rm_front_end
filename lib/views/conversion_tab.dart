@@ -33,7 +33,10 @@ class _ConversionTabState extends State<ConversionTab> {
       padding: const EdgeInsets.all(16.0),
       child: ListView(
         children: [
-          const MarkdownBody(data: MyMarkdownTexts.decodeMarkdown),
+          const MarkdownBody(
+            data: MyMarkdownTexts.decodeMarkdown,
+            fitContent: false,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: Row(
@@ -189,7 +192,10 @@ class _ConversionTabState extends State<ConversionTab> {
           if (decodeData != null)
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
-              child: MarkdownBody(data: decodeData.toMarkdown()),
+              child: MarkdownBody(
+                data: decodeData.toMarkdown(),
+                fitContent: false,
+              ),
             ),
         ],
       ),
