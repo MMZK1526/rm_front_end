@@ -14,10 +14,14 @@ class ConversionTab extends StatefulWidget {
   State<ConversionTab> createState() => _ConversionTabState();
 }
 
-class _ConversionTabState extends State<ConversionTab> {
+class _ConversionTabState extends State<ConversionTab>
+    with AutomaticKeepAliveClientMixin<ConversionTab> {
   final _decodeTextController = TextEditingController();
 
   DecodeData? _decodeData;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void dispose() {
@@ -27,6 +31,7 @@ class _ConversionTabState extends State<ConversionTab> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final decodeData = _decodeData;
 
     return Padding(
