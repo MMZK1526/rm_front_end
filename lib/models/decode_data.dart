@@ -2,18 +2,18 @@ import 'package:dartz/dartz.dart' as fn;
 
 class DecodeData {
   const DecodeData({
-    required this.json,
     required this.errors,
     this.list,
     this.pair,
     this.regMach,
+    this.json,
   });
 
   final List<String> errors;
   final List<String>? list;
   final fn.Tuple2<String, String>? pair;
   final String? regMach;
-  final String json;
+  final String? json;
 
   static DecodeData fromJSON(dynamic json) {
     try {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/services/rm_api.dart';
 import 'package:rm_front_end/views/conversion_tab.dart';
 import 'package:rm_front_end/views/introduction_tab.dart';
 
@@ -74,8 +77,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     vsync: this,
   );
 
+  bool? _initialised;
+
+  @override
+  void initState() {
+    RMAPI
+        .initialise()
+        .then((isSuccessful) => setState(() => _initialised = isSuccessful));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (_initialised == false) {
+        _initialised = true;
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(MyText.connectionErr.text),
+              content: Text(MyText.connectionErrContent.text),
+            );
+          },
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register Machine Simulator'),
