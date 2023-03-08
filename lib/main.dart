@@ -10,8 +10,8 @@ final theme = ThemeData.dark().copyWith(
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: Colors.blue,
     brightness: Brightness.dark,
+    accentColor: Colors.white,
   ),
-  useMaterial3: true,
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
     contentPadding: EdgeInsets.symmetric(
