@@ -9,8 +9,7 @@ void main() {
   runApp(const MyApp());
 }
 
-final theme = ThemeData.dark().copyWith(
-  useMaterial3: true,
+final theme = ThemeData.dark(useMaterial3: true).copyWith(
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
     contentPadding: EdgeInsets.symmetric(
