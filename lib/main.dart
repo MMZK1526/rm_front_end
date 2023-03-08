@@ -7,10 +7,6 @@ void main() {
 }
 
 final theme = ThemeData.dark().copyWith(
-  // buttonTheme: ButtonThemeData(
-  //   buttonColor: Colors.blue,
-  //   textTheme: ButtonTextTheme.primary,
-  // ),
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: Colors.blue,
     brightness: Brightness.dark,
