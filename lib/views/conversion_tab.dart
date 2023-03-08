@@ -19,7 +19,6 @@ class ConversionTab extends StatefulWidget {
 class _ConversionTabState extends State<ConversionTab> {
   final _decodeTextController = TextEditingController();
 
-  String? _rawDecodeResponse;
   DecodeData? _decodeData;
 
   @override
@@ -70,8 +69,7 @@ class _ConversionTabState extends State<ConversionTab> {
                     final response =
                         await RMAPI.decode(_decodeTextController.text);
                     setState(() {
-                      _rawDecodeResponse = response;
-                      _decodeData = DecodeData.fromJSON(jsonDecode(response));
+                      _decodeData = response;
                     });
                   },
                   child: Row(
@@ -115,16 +113,16 @@ class _ConversionTabState extends State<ConversionTab> {
                       },
                     ),
                   ),
-                  onPressed: _rawDecodeResponse == null
+                  onPressed: decodeData == null
                       ? null
                       : () {
                           Downloader.save(
                             'decoded_machine.rm',
-                            '${decodeData?.regMach}',
+                            '${decodeData.regMach}',
                           );
                           Downloader.save(
                             'response.json',
-                            '$_rawDecodeResponse',
+                            '${decodeData.json}',
                           );
                         },
                   child: Row(
@@ -168,16 +166,15 @@ class _ConversionTabState extends State<ConversionTab> {
                       },
                     ),
                   ),
-                  onPressed: _rawDecodeResponse == null &&
-                          _decodeTextController.text.isEmpty
-                      ? null
-                      : () => setState(
-                            () {
-                              _decodeTextController.clear();
-                              _decodeData = null;
-                              _rawDecodeResponse = null;
-                            },
-                          ),
+                  onPressed:
+                      decodeData == null && _decodeTextController.text.isEmpty
+                          ? null
+                          : () => setState(
+                                () {
+                                  _decodeTextController.clear();
+                                  _decodeData = null;
+                                },
+                              ),
                   child: Row(
                     children: [
                       Text(MyText.reset.text),

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart' as fn;
 
 class DecodeData {
   const DecodeData({
+    required this.json,
     required this.errors,
     this.list,
     this.pair,
@@ -12,12 +13,14 @@ class DecodeData {
   final List<String>? list;
   final fn.Tuple2<String, String>? pair;
   final String? regMach;
+  final String json;
 
   static DecodeData fromJSON(dynamic json) {
     try {
       if (json['hasError'] == true) {
         return DecodeData(
           errors: (json['errors'] as List<dynamic>?)?.cast() ?? [],
+          json: json.toString(),
         );
       }
       final rawPair = (json['decodeToPair'] as List<dynamic>?)?.cast<String>();
@@ -26,10 +29,12 @@ class DecodeData {
         list: (json['decodeToList'] as List<dynamic>?)?.cast(),
         pair: rawPair != null ? fn.Tuple2(rawPair[0], rawPair[1]) : null,
         regMach: json['decodeToRM'],
+        json: json.toString(),
       );
     } catch (e) {
       return DecodeData(
         errors: ['Invalid JSON response during decoding: $e'],
+        json: json.toString(),
       );
     }
   }

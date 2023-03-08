@@ -4,11 +4,13 @@ import 'dart:html' as html;
 
 class Downloader {
   static void save(String name, String content) {
-    final bytes = utf8.encode(content);
-    final blob = html.Blob([bytes]);
-    final url = html.Url.createObjectUrlFromBlob(blob);
+    final url = html.Url.createObjectUrlFromBlob(
+      html.Blob([utf8.encode(content)]),
+    );
     final anchor = html.document.createElement('a') as html.AnchorElement
-      ..href = url
+      ..href = html.Url.createObjectUrlFromBlob(
+        html.Blob([utf8.encode(content)]),
+      )
       ..style.display = 'none'
       ..download = name;
     html.document.body?.children.add(anchor);
