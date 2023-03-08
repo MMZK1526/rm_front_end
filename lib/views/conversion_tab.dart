@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -115,12 +113,12 @@ class _ConversionTabState extends State<ConversionTab> {
                   ),
                   onPressed: decodeData == null
                       ? null
-                      : () {
-                          Downloader.save(
+                      : () async {
+                          await Downloader.save(
                             'decoded_machine.rm',
                             '${decodeData.regMach}',
                           );
-                          Downloader.save(
+                          await Downloader.save(
                             'response.json',
                             '${decodeData.json}',
                           );

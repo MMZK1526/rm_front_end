@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'dart:html' as html;
 
 class Downloader {
-  static void save(String name, String content) {
+  static Future<void> save(
+    String name,
+    String content, {
+    int delay = 514,
+  }) async {
     final url = html.Url.createObjectUrlFromBlob(
       html.Blob([utf8.encode(content)]),
     );
@@ -19,5 +23,9 @@ class Downloader {
 
     html.document.body?.children.remove(anchor);
     html.Url.revokeObjectUrl(url);
+
+    if (delay > 0) {
+      await Future.delayed(Duration(milliseconds: delay));
+    }
   }
 }
