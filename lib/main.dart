@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rm_front_end/conversion_tab.dart';
-import 'package:rm_front_end/introduction_tab.dart';
+import 'package:rm_front_end/views/conversion_tab.dart';
+import 'package:rm_front_end/views/introduction_tab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -94,9 +94,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
-          children: [
-            const IntroductionTab(),
-            const ConversionTab(),
+          children: const [
+            IntroductionTab(),
+            ConversionTab(),
             Center(child: Text('TODO: There will be examples!')),
           ],
         ),
