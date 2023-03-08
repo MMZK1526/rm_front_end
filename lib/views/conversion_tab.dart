@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
@@ -42,8 +43,10 @@ class _ConversionTabState extends State<ConversionTab> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: _decodeTextController,
-                  ),
+                      controller: _decodeTextController,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ]),
                 ),
                 const SizedBox(width: 12.0),
                 TextButton(
