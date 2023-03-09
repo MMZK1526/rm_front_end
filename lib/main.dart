@@ -128,14 +128,17 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
       ),
       body: Center(
-        child: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _tabController,
-          children: const [
-            IntroductionTab(),
-            ConversionTab(),
-            Center(child: Text('TODO: There will be examples!')),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: const [
+              IntroductionTab(),
+              ConversionTab(),
+              Center(child: Text('TODO: There will be examples!')),
+            ],
+          ),
         ),
       ),
     );
