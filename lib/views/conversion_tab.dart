@@ -18,10 +18,22 @@ class _ConversionTabState extends State<ConversionTab>
     with AutomaticKeepAliveClientMixin<ConversionTab> {
   final _decodeTextController = TextEditingController();
 
+  bool _hasDecodeInput = false;
   DecodeData? _decodeData;
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    _decodeTextController.addListener(() {
+      final hasDecodeInput = _decodeTextController.text.isNotEmpty;
+      if (hasDecodeInput != _hasDecodeInput) {
+        setState(() => _hasDecodeInput = hasDecodeInput);
+      }
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -33,6 +45,7 @@ class _ConversionTabState extends State<ConversionTab>
   Widget build(BuildContext context) {
     super.build(context);
     final decodeData = _decodeData;
+    final hasValidData = decodeData?.errors.isEmpty == true;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -48,10 +61,9 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: TextFormField(
-                      controller: _decodeTextController,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ]),
+                    controller: _decodeTextController,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  ),
                 ),
                 const SizedBox(width: 12.0),
                 TextButton(
@@ -59,25 +71,40 @@ class _ConversionTabState extends State<ConversionTab>
                     padding: MaterialStateProperty.all(
                       const EdgeInsets.all(12.0),
                     ),
-                    foregroundColor: MaterialStateProperty.all(
-                      Theme.of(context).colorScheme.primary,
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                      (states) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return Colors.grey;
+                        }
+                        return Theme.of(context).colorScheme.primary;
+                      },
                     ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
+                    shape: MaterialStateProperty.resolveWith(
+                      (states) {
+                        if (states.contains(MaterialState.disabled)) {
+                          return RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            side: const BorderSide(color: Colors.grey),
+                          );
+                        }
+                        return RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          side: BorderSide(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  onPressed: () async {
-                    final response =
-                        await RMAPI.decode(_decodeTextController.text);
-                    setState(() {
-                      _decodeData = response;
-                    });
-                  },
+                  onPressed: !_hasDecodeInput
+                      ? null
+                      : () async {
+                          final response =
+                              await RMAPI.decode(_decodeTextController.text);
+                          setState(() {
+                            _decodeData = response;
+                          });
+                        },
                   child: Row(
                     children: [
                       Text(MyText.convert.text),
@@ -119,12 +146,12 @@ class _ConversionTabState extends State<ConversionTab>
                       },
                     ),
                   ),
-                  onPressed: decodeData == null
+                  onPressed: !hasValidData
                       ? null
                       : () async {
                           await Downloader.save(
                             'decoded_machine.rm',
-                            '${decodeData.regMach}',
+                            '${decodeData!.regMach}',
                           );
                           await Downloader.save(
                             'response.json',
@@ -172,15 +199,14 @@ class _ConversionTabState extends State<ConversionTab>
                       },
                     ),
                   ),
-                  onPressed:
-                      decodeData == null && _decodeTextController.text.isEmpty
-                          ? null
-                          : () => setState(
-                                () {
-                                  _decodeTextController.clear();
-                                  _decodeData = null;
-                                },
-                              ),
+                  onPressed: !hasValidData && !_hasDecodeInput
+                      ? null
+                      : () => setState(
+                            () {
+                              _decodeTextController.clear();
+                              _decodeData = null;
+                            },
+                          ),
                   child: Row(
                     children: [
                       Text(MyText.reset.text),
