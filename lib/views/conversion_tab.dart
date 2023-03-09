@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/models/decode_data.dart';
 import 'package:rm_front_end/services/downloader.dart';
 import 'package:rm_front_end/services/rm_api.dart';
@@ -16,37 +17,28 @@ class ConversionTab extends StatefulWidget {
 
 class _ConversionTabState extends State<ConversionTab>
     with AutomaticKeepAliveClientMixin<ConversionTab> {
-  final _decodeTextController = TextEditingController();
-
-  bool _hasDecodeInput = false;
-  String? _currentSearchedDecodeInput;
-  DecodeData? _decodeData;
+  final decodeInputManager = InputManager<DecodeData>();
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    _decodeTextController.addListener(() {
-      final hasDecodeInput = _decodeTextController.text.isNotEmpty ||
-          _currentSearchedDecodeInput != null;
-      if (hasDecodeInput != _hasDecodeInput) {
-        setState(() => _hasDecodeInput = hasDecodeInput);
-      }
-    });
+    decodeInputManager.initState();
+    decodeInputManager.addListener(() => setState(() {}));
     super.initState();
   }
 
   @override
   void dispose() {
-    _decodeTextController.dispose();
+    decodeInputManager.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final decodeData = _decodeData;
+    final decodeData = decodeInputManager.data;
     final hasValidData = decodeData?.errors.isEmpty == true;
 
     return Padding(
@@ -63,9 +55,9 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: _decodeTextController,
+                    controller: decodeInputManager.textController,
                     decoration: InputDecoration(
-                      hintText: _currentSearchedDecodeInput != null
+                      hintText: decodeInputManager.currentSearchedInput != null
                           ? 'Click "${MyText.convert.text}" to restore the previous input'
                           : null,
                     ),
@@ -104,22 +96,9 @@ class _ConversionTabState extends State<ConversionTab>
                       },
                     ),
                   ),
-                  onPressed: !_hasDecodeInput
+                  onPressed: !decodeInputManager.hasInput
                       ? null
-                      : () async {
-                          final inputText = _decodeTextController.text;
-                          if (inputText.isEmpty) {
-                            _decodeTextController.text =
-                                _currentSearchedDecodeInput!;
-                            setState(() {});
-                          } else {
-                            final response = await RMAPI.decode(inputText);
-                            setState(() {
-                              _currentSearchedDecodeInput = inputText;
-                              _decodeData = response;
-                            });
-                          }
-                        },
+                      : () => decodeInputManager.onQuery(RMAPI.decode),
                   child: Row(
                     children: [
                       Text(MyText.convert.text),
@@ -214,16 +193,9 @@ class _ConversionTabState extends State<ConversionTab>
                       },
                     ),
                   ),
-                  onPressed: !hasValidData && !_hasDecodeInput
+                  onPressed: !hasValidData && !decodeInputManager.hasInput
                       ? null
-                      : () => setState(
-                            () {
-                              _decodeTextController.clear();
-                              _decodeData = null;
-                              _currentSearchedDecodeInput = null;
-                              _hasDecodeInput = false;
-                            },
-                          ),
+                      : () => decodeInputManager.onReset(),
                   child: Row(
                     children: [
                       Text(MyText.reset.text),
