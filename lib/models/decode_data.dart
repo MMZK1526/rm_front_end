@@ -53,6 +53,8 @@ ${list ?? 'none'}|${pair ?? 'none'}
 ```
 ${regMach ?? 'none'}
 ```
+
+* `ARRÊT` means `HALT`. These two keywords are interchangeable in our syntax
 ''';
   }
 }
