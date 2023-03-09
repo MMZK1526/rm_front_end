@@ -44,7 +44,7 @@ This optimisation also makes simulating the Universal Register Machine(a Registe
 
 If an infinite loop is detected, the simulator would end immediately and report the machine is never going to terminate. Of course, it is not able to detect all infinite loops since the Halting Problem is undecidable.
 
-### Gödelisation
+## Gödelisation
 
 Intriguingly, there is a ONE TO ONE correspondence between natural number and Register Machines (**Gödelisation**). In other words, any natural number uniquely represents a Register Machine and *vice versa*.  
 
