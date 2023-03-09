@@ -1,4 +1,9 @@
 enum MyText {
+  title,
+  introTab,
+  convTab,
+  simTab,
+
   convert,
   download,
   reset,
@@ -10,6 +15,14 @@ enum MyText {
 extension MyTextExtension on MyText {
   String get text {
     switch (this) {
+      case MyText.title:
+        return 'Register Machine Simulator';
+      case MyText.introTab:
+        return 'Introduction';
+      case MyText.convTab:
+        return 'Gödel Number Conversion';
+      case MyText.simTab:
+        return 'Simulation';
       case MyText.convert:
         return 'Convert';
       case MyText.download:

@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Register Machine Simulator',
+      title: MyText.title.text,
       theme: theme,
       home: const HomePage(),
     );
@@ -113,17 +113,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register Machine Simulator'),
+        title: Text(MyText.title.text),
         bottom: TabBar(
           physics: const NeverScrollableScrollPhysics(),
           controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.book_outlined), text: 'Introduction'),
+          tabs: [
             Tab(
-              icon: Icon(Icons.settings_outlined),
-              text: 'Gödel Number Conversion',
+              icon: const Icon(Icons.book_outlined),
+              text: MyText.introTab.text,
             ),
-            Tab(icon: Icon(Icons.computer_outlined), text: 'Simulation'),
+            Tab(
+              icon: const Icon(Icons.settings_outlined),
+              text: MyText.convTab.text,
+            ),
+            Tab(
+              icon: const Icon(Icons.computer_outlined),
+              text: MyText.simTab.text,
+            ),
           ],
         ),
       ),
