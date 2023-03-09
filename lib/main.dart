@@ -10,6 +10,15 @@ void main() {
 }
 
 final theme = ThemeData.dark(useMaterial3: true).copyWith(
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.grey.shade900,
+    titleTextStyle: TextStyle(
+      fontSize: 36.0,
+      color: Colors.grey.shade200,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  cardTheme: CardTheme(color: Colors.grey.shade800),
   inputDecorationTheme: const InputDecorationTheme(
     border: OutlineInputBorder(),
     contentPadding: EdgeInsets.symmetric(
@@ -17,9 +26,10 @@ final theme = ThemeData.dark(useMaterial3: true).copyWith(
       horizontal: 20.0,
     ),
   ),
+  tabBarTheme: TabBarTheme(unselectedLabelColor: Colors.grey.shade50),
   textTheme: TextTheme(
     headlineSmall: TextStyle(
-      fontSize: 36.0,
+      fontSize: 32.0,
       color: Colors.grey.shade100,
       fontWeight: FontWeight.bold,
       height: 1.5,
