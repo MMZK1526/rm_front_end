@@ -19,6 +19,7 @@ class _ConversionTabState extends State<ConversionTab>
   final _decodeTextController = TextEditingController();
 
   bool _hasDecodeInput = false;
+  String? _currentSearchedDecodeInput;
   DecodeData? _decodeData;
 
   @override
@@ -27,7 +28,8 @@ class _ConversionTabState extends State<ConversionTab>
   @override
   void initState() {
     _decodeTextController.addListener(() {
-      final hasDecodeInput = _decodeTextController.text.isNotEmpty;
+      final hasDecodeInput = _decodeTextController.text.isNotEmpty ||
+          _currentSearchedDecodeInput != null;
       if (hasDecodeInput != _hasDecodeInput) {
         setState(() => _hasDecodeInput = hasDecodeInput);
       }
@@ -62,6 +64,12 @@ class _ConversionTabState extends State<ConversionTab>
                 Expanded(
                   child: TextFormField(
                     controller: _decodeTextController,
+                    decoration: InputDecoration(
+                      hintText: _currentSearchedDecodeInput != null
+                          ? 'Click "${MyText.convert.text}" to restore the previous input'
+                          : null,
+                    ),
+                    maxLines: null,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                 ),
@@ -99,11 +107,18 @@ class _ConversionTabState extends State<ConversionTab>
                   onPressed: !_hasDecodeInput
                       ? null
                       : () async {
-                          final response =
-                              await RMAPI.decode(_decodeTextController.text);
-                          setState(() {
-                            _decodeData = response;
-                          });
+                          final inputText = _decodeTextController.text;
+                          if (inputText.isEmpty) {
+                            _decodeTextController.text =
+                                _currentSearchedDecodeInput!;
+                            setState(() {});
+                          } else {
+                            final response = await RMAPI.decode(inputText);
+                            setState(() {
+                              _currentSearchedDecodeInput = inputText;
+                              _decodeData = response;
+                            });
+                          }
                         },
                   child: Row(
                     children: [
@@ -205,6 +220,8 @@ class _ConversionTabState extends State<ConversionTab>
                             () {
                               _decodeTextController.clear();
                               _decodeData = null;
+                              _currentSearchedDecodeInput = null;
+                              _hasDecodeInput = false;
                             },
                           ),
                   child: Row(

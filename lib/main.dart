@@ -20,11 +20,9 @@ final theme = ThemeData.dark(useMaterial3: true).copyWith(
   ),
   cardTheme: CardTheme(color: Colors.grey.shade800),
   inputDecorationTheme: const InputDecorationTheme(
+    hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey, height: 1.5),
     border: OutlineInputBorder(),
-    contentPadding: EdgeInsets.symmetric(
-      vertical: 12.0,
-      horizontal: 20.0,
-    ),
+    contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
   ),
   tabBarTheme: TabBarTheme(unselectedLabelColor: Colors.grey.shade50),
   textTheme: TextTheme(
