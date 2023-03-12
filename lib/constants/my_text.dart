@@ -10,6 +10,10 @@ enum MyText {
 
   connectionErr,
   connectionErrContent,
+
+  responseFileName,
+  decodeFileName,
+  decodeZipFileName,
 }
 
 extension MyTextExtension on MyText {
@@ -33,6 +37,12 @@ extension MyTextExtension on MyText {
         return 'Connection Error';
       case MyText.connectionErrContent:
         return 'Failed to connect to the back-end. The functionalities may not work';
+      case MyText.responseFileName:
+        return 'response.json';
+      case MyText.decodeFileName:
+        return 'decode.rm';
+      case MyText.decodeZipFileName:
+        return 'decode.zip';
       default:
         return 'Unknown';
     }
