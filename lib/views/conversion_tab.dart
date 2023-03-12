@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as fn;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -142,14 +143,16 @@ class _ConversionTabState extends State<ConversionTab>
                   ),
                   onPressed: !hasValidData
                       ? null
-                      : () async {
-                          await Downloader.save(
-                            'decoded_machine.rm',
-                            '${decodeData!.regMach}',
-                          );
-                          await Downloader.save(
-                            'response.json',
-                            '${decodeData.json}',
+                      : () {
+                          Downloader.saveAsZip(
+                            'decoded.zip',
+                            [
+                              fn.Tuple2(
+                                'decoded_machine.rm',
+                                '${decodeData!.regMach}',
+                              ),
+                              fn.Tuple2('response.json', '${decodeData.json}')
+                            ],
                           );
                         },
                   child: Row(
