@@ -6,7 +6,7 @@ import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/models/decode_data.dart';
-import 'package:rm_front_end/services/downloader.dart';
+import 'package:rm_front_end/utilities/downloader.dart';
 import 'package:rm_front_end/services/rm_api.dart';
 
 class ConversionTab extends StatefulWidget {
