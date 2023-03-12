@@ -9,8 +9,9 @@ import 'package:dartz/dartz.dart' as fn;
 class Downloader {
   static void saveAsZip(
     String zipName,
-    List<fn.Tuple2<String, String>> contents,
-  ) {
+    List<fn.Tuple2<String, String>> contents, {
+    int compressLevel = Deflate.BEST_SPEED,
+  }) {
     var encoder = ZipEncoder();
     var archive = Archive();
 
@@ -27,7 +28,7 @@ class Downloader {
     var outputStream = OutputStream();
     var bytes = encoder.encode(
       archive,
-      level: Deflate.NO_COMPRESSION,
+      level: compressLevel,
       output: outputStream,
     );
 
