@@ -4,6 +4,7 @@ import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/services/rm_api.dart';
 import 'package:rm_front_end/views/conversion_tab.dart';
 import 'package:rm_front_end/views/introduction_tab.dart';
+import 'package:rm_front_end/views/simulation_tab.dart';
 
 void main() {
   runApp(const MyApp());
@@ -148,7 +149,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: const [
               IntroductionTab(),
               ConversionTab(),
-              Center(child: Text('TODO: There will be examples!')),
+              SimulationTab(),
             ],
           ),
         ),
