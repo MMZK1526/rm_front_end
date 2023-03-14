@@ -10,6 +10,6 @@ class SimulationTab extends StatefulWidget {
 class _SimulationTabState extends State<SimulationTab> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('TODO: There will be examples!'));
+    return const Center(child: Text('TODO: There will be examples!'));
   }
 }
