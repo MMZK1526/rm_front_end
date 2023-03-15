@@ -12,6 +12,7 @@ void main() {
 
 final theme = ThemeData.dark(useMaterial3: true).copyWith(
   appBarTheme: AppBarTheme(
+    toolbarHeight: 80.0,
     backgroundColor: Colors.grey.shade900,
     titleTextStyle: TextStyle(
       fontSize: 36.0,
