@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart' as fn;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
@@ -67,39 +68,10 @@ class _ConversionTabState extends State<ConversionTab>
                   ),
                 ),
                 const SizedBox(width: 12.0),
-                TextButton(
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.all(12.0),
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors.grey;
-                        }
-                        return Theme.of(context).colorScheme.primary;
-                      },
-                    ),
-                    shape: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: const BorderSide(color: Colors.grey),
-                          );
-                        }
-                        return RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  onPressed: !decodeInputManager.hasInput
-                      ? null
-                      : () => decodeInputManager.onQuery(RMAPI.decode),
+                Button(
+                  enabled: decodeInputManager.hasInput,
+                  colour: Theme.of(context).colorScheme.primary,
+                  onPressed: () => decodeInputManager.onQuery(RMAPI.decode),
                   child: Row(
                     children: [
                       Text(MyText.convert.text),
@@ -111,50 +83,19 @@ class _ConversionTabState extends State<ConversionTab>
                   ),
                 ),
                 const SizedBox(width: 12.0),
-                TextButton(
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.all(12.0),
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors.grey;
-                        }
-                        return Theme.of(context).colorScheme.secondary;
-                      },
-                    ),
-                    shape: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: const BorderSide(color: Colors.grey),
-                          );
-                        }
-                        return RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        );
-                      },
-                    ),
+                Button(
+                  enabled: hasValidData,
+                  colour: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => Downloader.saveAsZip(
+                    'decoded.zip',
+                    [
+                      fn.Tuple2(
+                        'decoded_machine.rm',
+                        '${decodeData?.regMach}',
+                      ),
+                      fn.Tuple2('response.json', '${decodeData?.json}')
+                    ],
                   ),
-                  onPressed: !hasValidData
-                      ? null
-                      : () {
-                          Downloader.saveAsZip(
-                            'decoded.zip',
-                            [
-                              fn.Tuple2(
-                                'decoded_machine.rm',
-                                '${decodeData!.regMach}',
-                              ),
-                              fn.Tuple2('response.json', '${decodeData.json}')
-                            ],
-                          );
-                        },
                   child: Row(
                     children: [
                       Text(MyText.download.text),
@@ -166,39 +107,10 @@ class _ConversionTabState extends State<ConversionTab>
                   ),
                 ),
                 const SizedBox(width: 12.0),
-                TextButton(
-                  style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.all(12.0),
-                    ),
-                    foregroundColor: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return Colors.grey;
-                        }
-                        return Theme.of(context).colorScheme.tertiary;
-                      },
-                    ),
-                    shape: MaterialStateProperty.resolveWith(
-                      (states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: const BorderSide(color: Colors.grey),
-                          );
-                        }
-                        return RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  onPressed: !hasValidData && !decodeInputManager.hasInput
-                      ? null
-                      : () => decodeInputManager.onReset(),
+                Button(
+                  enabled: hasValidData || decodeInputManager.hasInput,
+                  colour: Theme.of(context).colorScheme.tertiary,
+                  onPressed: () => decodeInputManager.onReset(),
                   child: Row(
                     children: [
                       Text(MyText.reset.text),
