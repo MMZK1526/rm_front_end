@@ -95,4 +95,19 @@ Go to the "Gödel Number Conversion" tab for automated conversion tools.
 
 Enter a non-negative number below and convert it to the corresponding pair, list, and Register Machine.
 """;
+
+  static const encodeRMmarkdown = """
+# Gödelisation
+
+## Register Machine Encoding
+
+TODO
+
+Convert a Register Machine to a list and a Gödel number.
+
+Either select from one of the examples, or enter/upload your custom Register Machine below.
+""";
+
+  static const encodeListPairMarkdown = """
+""";
 }

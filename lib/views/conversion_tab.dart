@@ -132,6 +132,10 @@ class _ConversionTabState extends State<ConversionTab>
                 fitContent: false,
               ),
             ),
+          const MarkdownBody(
+            data: MyMarkdownTexts.encodeRMmarkdown,
+            fitContent: false,
+          ),
         ],
       ),
     );
