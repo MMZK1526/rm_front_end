@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart' as fn;
+import 'package:rm_front_end/utilities/prelude.dart';
 
 class DecodeData {
   const DecodeData({
@@ -28,7 +29,10 @@ class DecodeData {
       return DecodeData(
         errors: json['errors'] ?? [],
         list: (json['decodeToList'] as List<dynamic>?)?.cast(),
-        pair: rawPair != null ? fn.Tuple2(rawPair[0], rawPair[1]) : null,
+        pair: Prelude.liftNull<List<String>, fn.Tuple2<String, String>>(
+          (pair) => fn.Tuple2(pair[0], pair[1]),
+          rawPair,
+        ),
         regMach: json['decodeToRM'],
         json: jsonEncode(json),
       );
