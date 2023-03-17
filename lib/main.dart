@@ -50,6 +50,7 @@ final theme = ThemeData.dark(useMaterial3: true).copyWith(
       fontSize: 18.0,
       color: Colors.grey.shade50,
       height: 1.5,
+      fontFamily: 'monospace',
     ),
     bodyMedium: TextStyle(
       fontSize: 16.0,

@@ -97,8 +97,6 @@ Enter a non-negative number below and convert it to the corresponding pair, list
 """;
 
   static const encodeRMmarkdown = """
-# Gödelisation
-
 ## Register Machine Encoding
 
 TODO

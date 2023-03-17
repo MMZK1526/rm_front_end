@@ -132,9 +132,31 @@ class _ConversionTabState extends State<ConversionTab>
                 fitContent: false,
               ),
             ),
-          const MarkdownBody(
-            data: MyMarkdownTexts.encodeRMmarkdown,
-            fitContent: false,
+          const Padding(
+            padding: EdgeInsets.only(top: 12.0),
+            child: MarkdownBody(
+              data: MyMarkdownTexts.encodeRMmarkdown,
+              fitContent: false,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    // controller: decodeInputManager.textController,
+                    // decoration: InputDecoration(
+                    //   hintText: decodeInputManager.currentSearchedInput != null
+                    //       ? 'Click "${MyText.convert.text}" to restore the previous input'
+                    //       : null,
+                    // ),
+                    minLines: 5,
+                    maxLines: null,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
