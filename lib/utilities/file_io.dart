@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:dartz/dartz.dart' as fn;
 
-class Downloader {
+class FileIO {
   static void saveAsZip(
     String zipName,
     List<fn.Tuple2<String, String>> contents, {
