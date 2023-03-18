@@ -5,8 +5,10 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/constants/rm_examples.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/models/decode_data.dart';
+import 'package:rm_front_end/models/encode_data.dart';
 import 'package:rm_front_end/utilities/file_io.dart';
 import 'package:rm_front_end/services/rm_api.dart';
 
@@ -19,28 +21,31 @@ class ConversionTab extends StatefulWidget {
 
 class _ConversionTabState extends State<ConversionTab>
     with AutomaticKeepAliveClientMixin<ConversionTab> {
-  final decodeInputManager = InputManager<DecodeData>();
+  final _decodeInputManager = InputManager<DecodeData>();
+  final _encodeRMInputManager = InputManager<EncodeData>();
+
+  int? _currentExampleIndex;
 
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
-    decodeInputManager.initState();
-    decodeInputManager.addListener(() => setState(() {}));
+    _decodeInputManager.initState();
+    _decodeInputManager.addListener(() => setState(() {}));
     super.initState();
   }
 
   @override
   void dispose() {
-    decodeInputManager.dispose();
+    _decodeInputManager.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final decodeData = decodeInputManager.data;
+    final decodeData = _decodeInputManager.data;
     final hasValidData = decodeData?.errors.isEmpty == true;
 
     return Padding(
@@ -57,9 +62,9 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: decodeInputManager.textController,
+                    controller: _decodeInputManager.textController,
                     decoration: InputDecoration(
-                      hintText: decodeInputManager.currentSearchedInput != null
+                      hintText: _decodeInputManager.currentSearchedInput != null
                           ? 'Click "${MyText.convert.text}" to restore the previous input'
                           : null,
                     ),
@@ -69,9 +74,9 @@ class _ConversionTabState extends State<ConversionTab>
                 ),
                 const SizedBox(width: 12.0),
                 Button(
-                  enabled: decodeInputManager.hasInput,
+                  enabled: _decodeInputManager.hasInput,
                   colour: Theme.of(context).colorScheme.primary,
-                  onPressed: () => decodeInputManager.onQuery(RMAPI.decode),
+                  onPressed: () => _decodeInputManager.onQuery(RMAPI.decode),
                   child: Row(
                     children: [
                       Text(MyText.convert.text),
@@ -108,9 +113,9 @@ class _ConversionTabState extends State<ConversionTab>
                 ),
                 const SizedBox(width: 12.0),
                 Button(
-                  enabled: hasValidData || decodeInputManager.hasInput,
+                  enabled: hasValidData || _decodeInputManager.hasInput,
                   colour: Theme.of(context).colorScheme.tertiary,
-                  onPressed: () => decodeInputManager.onReset(),
+                  onPressed: () => _decodeInputManager.onReset(),
                   child: Row(
                     children: [
                       Text(MyText.reset.text),
@@ -141,17 +146,47 @@ class _ConversionTabState extends State<ConversionTab>
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
+            child: SizedBox(
+              height: 36.0,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: RMExamplesExtension.allExamples().length,
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                separatorBuilder: (context, _) => const SizedBox(width: 12.0),
+                itemBuilder: (context, index) {
+                  final example = RMExamplesExtension.allExamples()[index];
+                  return Button(
+                    colour: _currentExampleIndex == index
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      setState(() {
+                        _currentExampleIndex = index;
+                        _encodeRMInputManager.textController.text = example.rm;
+                      });
+                    },
+                    child: Text(example.text),
+                  );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextFormField(
-                    // controller: decodeInputManager.textController,
-                    // decoration: InputDecoration(
-                    //   hintText: decodeInputManager.currentSearchedInput != null
-                    //       ? 'Click "${MyText.convert.text}" to restore the previous input'
-                    //       : null,
-                    // ),
-                    minLines: 5,
+                    controller: _encodeRMInputManager.textController,
+                    decoration: InputDecoration(
+                      hintText: _encodeRMInputManager.currentSearchedInput !=
+                              null
+                          ? 'Click "${MyText.convert.text}" to restore the previous input'
+                          : null,
+                    ),
+                    minLines: 7,
                     maxLines: null,
                   ),
                 ),

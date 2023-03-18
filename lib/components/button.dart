@@ -9,7 +9,7 @@ class Button extends StatelessWidget {
     super.key,
   });
 
-  final Function() onPressed;
+  final Function()? onPressed;
 
   final Widget child;
 
