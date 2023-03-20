@@ -148,6 +148,7 @@ class _ConversionTabState extends State<ConversionTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MarkdownBody(
+                selectable: true,
                 data: decodeData.toMarkdown(),
                 fitContent: false,
               ),
@@ -274,7 +275,9 @@ class _ConversionTabState extends State<ConversionTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MarkdownBody(
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
                 data: encodeRMData.toMarkdown(),
+                selectable: true,
                 fitContent: false,
               ),
             ),

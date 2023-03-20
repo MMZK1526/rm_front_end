@@ -75,9 +75,7 @@ class EncodeData {
     if (regMach != null) {
       return '''
 ### Gödel Number:
-```
 ${showOptionalNumber(regMach!)}
-```
 ''';
     }
 
