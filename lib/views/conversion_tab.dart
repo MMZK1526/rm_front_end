@@ -60,6 +60,8 @@ class _ConversionTabState extends State<ConversionTab>
     super.build(context);
     final decodeData = _decodeInputManager.data;
     final decodehasValidData = decodeData?.errors.isEmpty == true;
+    final encodeRMData = _encodeRMInputManager.data;
+    final encodeRMHasValidData = encodeRMData?.errors.isEmpty == true;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -268,6 +270,14 @@ class _ConversionTabState extends State<ConversionTab>
               ],
             ),
           ),
+          if (encodeRMData != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: MarkdownBody(
+                data: encodeRMData.toMarkdown(),
+                fitContent: false,
+              ),
+            ),
         ],
       ),
     );

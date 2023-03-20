@@ -60,22 +60,29 @@ class EncodeData {
     }
   }
 
-//   String toMarkdown() {
-//     if (errors.isNotEmpty) {
-//       return 'Error during decoding:\n${errors.join('\n')}';
-//     }
+  String toMarkdown() {
+    String showOptionalNumber(fn.Option<String> num) {
+      return num.fold(
+        () => '[TOO BIG]',
+        (num) => num,
+      );
+    }
 
-//     return '''
-// List|Pair
-// -|-
-// ${list ?? 'none'}|${pair ?? 'none'}
+    if (errors.isNotEmpty) {
+      return 'Error during decoding:\n${errors.join('\n')}';
+    }
 
-// ### Register Machine:
-// ```
-// ${regMach ?? 'none'}
-// ```
+    if (regMach != null) {
+      return '''
+### Gödel Number:
+```
+${showOptionalNumber(regMach!)}
+```
+''';
+    }
 
-// * `ARRÊT` means `HALT`. These two keywords are interchangeable in our syntax
-// ''';
-//   }
+    return '''
+TODO
+''';
+  }
 }
