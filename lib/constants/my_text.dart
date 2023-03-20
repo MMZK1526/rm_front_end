@@ -5,6 +5,7 @@ enum MyText {
   simTab,
 
   convert,
+  upload,
   download,
   reset,
 
@@ -29,6 +30,8 @@ extension MyTextExtension on MyText {
         return 'Simulation';
       case MyText.convert:
         return 'Convert';
+      case MyText.upload:
+        return 'Upload';
       case MyText.download:
         return 'Download';
       case MyText.reset:

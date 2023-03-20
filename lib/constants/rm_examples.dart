@@ -29,8 +29,7 @@ R1- 1 2
 R0+ 0
 R2- 3 4
 R0 2 # The '+' and '-' are optional
-HALT # can also be H or ARRÊT
-''';
+HALT # can also be H or ARRÊT''';
       case RMExamples.multiplier:
         return '''
 # Computes R1 * R2 and stores the result in R0
@@ -40,8 +39,7 @@ HALT # can also be H or ARRÊT
 0+ 1
 3- 5 0
 2+ 4
-H
-''';
+H''';
       default:
         return '# Unknown Register Machine!';
     }

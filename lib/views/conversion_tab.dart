@@ -26,6 +26,9 @@ class _ConversionTabState extends State<ConversionTab>
 
   int? _currentExampleIndex;
 
+  final allExampleRMs =
+      RMExamplesExtension.allExamples().map((e) => e.rm).toSet();
+
   @override
   bool get wantKeepAlive => true;
 
@@ -33,12 +36,22 @@ class _ConversionTabState extends State<ConversionTab>
   void initState() {
     _decodeInputManager.initState();
     _decodeInputManager.addListener(() => setState(() {}));
+    _encodeRMInputManager.initState();
+    _encodeRMInputManager.addListener(() => setState(() {}));
+    _encodeRMInputManager.textController.addListener(() {
+      final isExample =
+          allExampleRMs.contains(_encodeRMInputManager.textController.text);
+      if (_currentExampleIndex != null && !isExample) {
+        setState(() => _currentExampleIndex = null);
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
     _decodeInputManager.dispose();
+    _encodeRMInputManager.dispose();
     super.dispose();
   }
 
@@ -46,7 +59,7 @@ class _ConversionTabState extends State<ConversionTab>
   Widget build(BuildContext context) {
     super.build(context);
     final decodeData = _decodeInputManager.data;
-    final hasValidData = decodeData?.errors.isEmpty == true;
+    final decodehasValidData = decodeData?.errors.isEmpty == true;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -89,7 +102,7 @@ class _ConversionTabState extends State<ConversionTab>
                 ),
                 const SizedBox(width: 12.0),
                 Button(
-                  enabled: hasValidData,
+                  enabled: decodehasValidData,
                   colour: Theme.of(context).colorScheme.secondary,
                   onPressed: () => FileIO.saveAsZip(
                     'decoded.zip',
@@ -113,7 +126,7 @@ class _ConversionTabState extends State<ConversionTab>
                 ),
                 const SizedBox(width: 12.0),
                 Button(
-                  enabled: hasValidData || _decodeInputManager.hasInput,
+                  enabled: decodehasValidData || _decodeInputManager.hasInput,
                   colour: Theme.of(context).colorScheme.tertiary,
                   onPressed: () => _decodeInputManager.onReset(),
                   child: Row(
@@ -179,15 +192,77 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontFamily: 'monospace',
+                        ),
                     controller: _encodeRMInputManager.textController,
                     decoration: InputDecoration(
                       hintText: _encodeRMInputManager.currentSearchedInput !=
                               null
-                          ? 'Click "${MyText.convert.text}" to restore the previous input'
+                          ? '# Click "${MyText.convert.text}" to restore the previous input'
                           : null,
                     ),
                     minLines: 7,
                     maxLines: null,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    enabled: decodehasValidData,
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () => FileIO.saveAsZip(
+                      'decoded.zip',
+                      [
+                        fn.Tuple2(
+                          'decoded_machine.rm',
+                          '${decodeData?.regMach}',
+                        ),
+                        fn.Tuple2('response.json', '${decodeData?.json}')
+                      ],
+                    ),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.upload.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.upload_file_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    enabled: _encodeRMInputManager.hasInput,
+                    colour: Theme.of(context).colorScheme.primary,
+                    onPressed: () => _encodeRMInputManager.onQuery(
+                      RMAPI.encodeRM,
+                    ),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.convert.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.arrow_circle_right_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
