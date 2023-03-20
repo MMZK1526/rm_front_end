@@ -109,11 +109,11 @@ class _ConversionTabState extends State<ConversionTab>
                   onPressed: () => FileIO.saveAsZip(
                     'decoded.zip',
                     [
+                      fn.Tuple2('response.json', '${decodeData?.json}'),
                       fn.Tuple2(
-                        'decoded_machine.rm',
-                        '${decodeData?.regMach}',
+                        'response.md',
+                        '${decodeData?.toMarkdown()}',
                       ),
-                      fn.Tuple2('response.json', '${decodeData?.json}')
                     ],
                   ),
                   child: Row(
