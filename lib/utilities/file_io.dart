@@ -12,8 +12,8 @@ class FileIO {
     List<fn.Tuple2<String, String>> contents, {
     int compressLevel = Deflate.BEST_SPEED,
   }) {
-    var encoder = ZipEncoder();
-    var archive = Archive();
+    final encoder = ZipEncoder();
+    final archive = Archive();
 
     for (final content in contents) {
       final encoded = utf8.encode(content.value2);
@@ -25,8 +25,8 @@ class FileIO {
       archive.addFile(archiveFiles);
     }
 
-    var outputStream = OutputStream();
-    var bytes = encoder.encode(
+    final outputStream = OutputStream();
+    final bytes = encoder.encode(
       archive,
       level: compressLevel,
       output: outputStream,
