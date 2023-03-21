@@ -107,11 +107,14 @@ class _ConversionTabState extends State<ConversionTab>
                   enabled: decodehasValidData,
                   colour: Theme.of(context).colorScheme.secondary,
                   onPressed: () => FileIO.saveAsZip(
-                    'decoded.zip',
+                    MyText.decodeZip.text,
                     [
-                      fn.Tuple2('response.json', '${decodeData?.json}'),
                       fn.Tuple2(
-                        'response.md',
+                        MyText.responseJSON.text,
+                        '${decodeData?.json}',
+                      ),
+                      fn.Tuple2(
+                        MyText.responseMarkdown.text,
                         '${decodeData?.toMarkdown()}',
                       ),
                     ],
@@ -218,16 +221,19 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: Button(
-                    enabled: decodehasValidData,
+                    enabled: encodeRMHasValidData,
                     colour: Theme.of(context).colorScheme.secondary,
                     onPressed: () => FileIO.saveAsZip(
-                      'decoded.zip',
+                      MyText.encodeZip.text,
                       [
                         fn.Tuple2(
-                          'decoded_machine.rm',
-                          '${decodeData?.regMach}',
+                          MyText.responseJSON.text,
+                          '${encodeRMData?.json}',
                         ),
-                        fn.Tuple2('response.json', '${decodeData?.json}')
+                        fn.Tuple2(
+                          MyText.responseMarkdown.text,
+                          '${encodeRMData?.toMarkdown()}',
+                        ),
                       ],
                     ),
                     child: SizedBox(
