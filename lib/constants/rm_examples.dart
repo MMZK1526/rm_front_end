@@ -1,16 +1,20 @@
 enum RMExamples {
+  constant,
   adder,
   multiplier,
 }
 
 extension RMExamplesExtension on RMExamples {
   static List<RMExamples> allExamples() => [
+        RMExamples.constant,
         RMExamples.adder,
         RMExamples.multiplier,
       ];
 
   String get text {
     switch (this) {
+      case RMExamples.constant:
+        return 'Const';
       case RMExamples.adder:
         return 'Adder';
       case RMExamples.multiplier:
@@ -22,6 +26,12 @@ extension RMExamplesExtension on RMExamples {
 
   String get rm {
     switch (this) {
+      case RMExamples.constant:
+        return '''
+# Copy the value from R1 into R0
+R1- 1 2
+R0+ 0
+HALT''';
       case RMExamples.adder:
         return '''
 # Computes R1 + R2 and stores the result in R0
