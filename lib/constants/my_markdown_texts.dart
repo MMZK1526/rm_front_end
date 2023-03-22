@@ -99,8 +99,6 @@ Enter a non-negative number below and convert it to the corresponding pair, list
   static const encodeRMmarkdown = """
 ## Register Machine Encoding
 
-TODO
-
 Convert a Register Machine to a list and a Gödel number.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.

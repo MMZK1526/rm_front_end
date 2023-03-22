@@ -37,13 +37,15 @@ class DecodeData {
         json: jsonEncode(json),
       );
     } catch (e) {
-      return DecodeData(errors: ['Invalid JSON response during decoding: $e']);
+      return DecodeData(
+        errors: ['Invalid JSON response during decoding', '$e'],
+      );
     }
   }
 
   String toMarkdown() {
     if (errors.isNotEmpty) {
-      return 'Error during decoding:\n${errors.join('\n')}';
+      return 'Error during decoding:\n\n${errors.join('\n\n')}';
     }
 
     return '''

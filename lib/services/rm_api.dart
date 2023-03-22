@@ -25,7 +25,7 @@ class RMAPI {
       final response = await http.post(url, headers: headers, body: num);
       return DecodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
-      return DecodeData(errors: [MyText.connectionErr.text]);
+      return DecodeData(errors: [MyText.connectionErr.text, '$e']);
     }
   }
 
@@ -39,7 +39,7 @@ class RMAPI {
       );
       return EncodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
-      return EncodeData(errors: [MyText.connectionErr.text]);
+      return EncodeData(errors: [MyText.connectionErr.text, '$e']);
     }
   }
 }

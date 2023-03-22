@@ -56,7 +56,9 @@ class EncodeData {
         json: jsonEncode(json),
       );
     } catch (e) {
-      return EncodeData(errors: ['Invalid JSON response during encoding: $e']);
+      return EncodeData(
+        errors: ['Invalid JSON response during encoding', '$e'],
+      );
     }
   }
 
@@ -69,7 +71,7 @@ class EncodeData {
     }
 
     if (errors.isNotEmpty) {
-      return 'Error during decoding:\n${errors.join('\n')}';
+      return 'Error during decoding:\n\n${errors.join('\n\n')}';
     }
 
     final sb = StringBuffer();
