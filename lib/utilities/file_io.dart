@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
@@ -7,6 +8,34 @@ import 'package:archive/archive.dart';
 import 'package:dartz/dartz.dart' as fn;
 
 class FileIO {
+  static Future<String> uploadToString() {
+    final completer = Completer<String>();
+    final input = html.FileUploadInputElement();
+    input.click();
+
+    input.onChange.listen((event) {
+      final files = input.files;
+      if (files == null || files.isEmpty) {
+        return;
+      }
+
+      final file = files[0];
+      final reader = html.FileReader();
+      reader.readAsText(file);
+      reader.readyState;
+      reader.onLoadEnd.listen((event) {
+        final result = reader.result;
+        if (result is String) {
+          completer.complete(result);
+        } else {
+          completer.completeError('Failed to read the file!');
+        }
+      });
+    });
+
+    return completer.future;
+  }
+
   static void saveAsZip(
     String zipName,
     List<fn.Tuple2<String, String>> contents, {
