@@ -9,6 +9,7 @@ enum MyText {
   download,
   reset,
   confirm,
+  help,
 
   connectionErr,
   connectionErrContent,
@@ -41,6 +42,8 @@ extension MyTextExtension on MyText {
         return 'Reset';
       case MyText.confirm:
         return 'Confirm';
+      case MyText.help:
+        return 'Help';
       case MyText.connectionErr:
         return 'Connection Error';
       case MyText.connectionErrContent:

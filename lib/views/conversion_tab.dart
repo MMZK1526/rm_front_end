@@ -298,6 +298,89 @@ class _ConversionTabState extends State<ConversionTab>
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    enabled: encodeRMHasValidData,
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () async {
+                      FileIO.saveAsZip(
+                        MyText.encodeZip.text,
+                        [
+                          fn.Tuple2(
+                            MyText.responseJSON.text,
+                            '${encodeRMData?.json}',
+                          ),
+                          fn.Tuple2(
+                            MyText.responseMarkdown.text,
+                            '${encodeRMData?.toMarkdown()}',
+                          ),
+                        ],
+                      );
+                    },
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.download.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.download_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    enabled:
+                        encodeRMHasValidData || _encodeRMInputManager.hasInput,
+                    colour: Theme.of(context).colorScheme.tertiary,
+                    onPressed: () => _encodeRMInputManager.onReset(),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.reset.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.restore_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {},
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.help.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.help_outline_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           if (encodeRMData != null)
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
