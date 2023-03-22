@@ -8,7 +8,7 @@ import 'package:archive/archive.dart';
 import 'package:dartz/dartz.dart' as fn;
 
 class FileIO {
-  static Future<String> uploadToString() {
+  static Future<String> uploadToString({int? maxLength}) {
     final completer = Completer<String>();
     final input = html.FileUploadInputElement();
     input.click();
@@ -21,12 +21,25 @@ class FileIO {
 
       final file = files[0];
       final reader = html.FileReader();
-      reader.readAsText(file);
+      reader.readAsArrayBuffer(file);
       reader.readyState;
       reader.onLoadEnd.listen((event) {
         final result = reader.result;
-        if (result is String) {
-          completer.complete(result);
+        if (result is Uint8List) {
+          try {
+            final content = utf8.decode(result, allowMalformed: false);
+            if (maxLength != null && content.length > maxLength) {
+              completer.completeError(
+                'The content is too large (max length: $maxLength)!',
+              );
+            } else {
+              completer.complete(content);
+            }
+          } catch (e) {
+            completer.completeError(
+              'Failed to parse the file content as string!',
+            );
+          }
         } else {
           completer.completeError('Failed to read the file!');
         }

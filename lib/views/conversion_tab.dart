@@ -221,21 +221,42 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: Button(
-                    enabled: encodeRMHasValidData,
                     colour: Theme.of(context).colorScheme.secondary,
-                    onPressed: () => FileIO.saveAsZip(
-                      MyText.encodeZip.text,
-                      [
-                        fn.Tuple2(
-                          MyText.responseJSON.text,
-                          '${encodeRMData?.json}',
-                        ),
-                        fn.Tuple2(
-                          MyText.responseMarkdown.text,
-                          '${encodeRMData?.toMarkdown()}',
-                        ),
-                      ],
-                    ),
+                    onPressed: () async {
+                      try {
+                        _encodeRMInputManager.textController.text =
+                            await FileIO.uploadToString(maxLength: 1919810);
+                      } catch (e) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(MyText.uploadErr.text),
+                              content: Text('$e'),
+                              actions: [
+                                Button(
+                                  child: Text(MyText.confirm.text),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      // FileIO.saveAsZip(
+                      //   MyText.encodeZip.text,
+                      //   [
+                      //     fn.Tuple2(
+                      //       MyText.responseJSON.text,
+                      //       '${encodeRMData?.json}',
+                      //     ),
+                      //     fn.Tuple2(
+                      //       MyText.responseMarkdown.text,
+                      //       '${encodeRMData?.toMarkdown()}',
+                      //     ),
+                      //   ],
+                      // );
+                    },
                     child: SizedBox(
                       height: 64.0,
                       child: Row(
