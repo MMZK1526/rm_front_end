@@ -9,7 +9,7 @@ class EncodeData {
     this.list,
     this.pair,
     this.regMach,
-    this.line,
+    this.lines,
     this.json,
   });
 
@@ -17,7 +17,7 @@ class EncodeData {
   final fn.Option<String>? list;
   final fn.Option<String>? pair;
   final fn.Option<String>? regMach;
-  final List<fn.Option<String>>? line;
+  final List<fn.Option<String>>? lines;
   final String? json;
 
   static EncodeData fromJSON(dynamic json) {
@@ -49,7 +49,7 @@ class EncodeData {
           toOptionalNum,
           json['encodeFromRM'],
         ),
-        line: (json['encodeToLine'] as List<dynamic>?)
+        lines: (json['encodeToLine'] as List<dynamic>?)
             ?.cast()
             .map((line) => toOptionalNum(line))
             .toList(),
@@ -72,15 +72,28 @@ class EncodeData {
       return 'Error during decoding:\n${errors.join('\n')}';
     }
 
-    if (regMach != null) {
-      return '''
-### Gödel Number:
-${showOptionalNumber(regMach!)}
-''';
+    final sb = StringBuffer();
+
+    if (lines != null) {
+      final lineStr = Iterable<int>.generate(lines!.length)
+          .toList()
+          .map((ix) => '$ix|${showOptionalNumber(lines![ix])}')
+          .join('\n');
+      sb.write('''
+### Line-by-line Encoding:
+Line Number|Gödel Number
+-|-
+$lineStr
+''');
     }
 
-    return '''
-TODO
-''';
+    if (regMach != null) {
+      sb.write('''
+### Gödel Number:
+${showOptionalNumber(regMach!)}
+''');
+    }
+
+    return sb.toString();
   }
 }
