@@ -22,7 +22,7 @@ class RMAPI {
   static Future<DecodeData> decode(String num) async {
     try {
       final url = Uri.https(baseUrl, 'decode');
-      final response = await http.post(url, headers: headers, body: num);
+      final response = await http.post(url, body: num);
       return DecodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
       return DecodeData(errors: [MyText.connectionErr.text, '$e']);
