@@ -23,6 +23,7 @@ class _ConversionTabState extends State<ConversionTab>
     with AutomaticKeepAliveClientMixin<ConversionTab> {
   final _decodeInputManager = InputManager<DecodeData>();
   final _encodeRMInputManager = InputManager<EncodeData>();
+  final _encodeListOrPairInputManager = InputManager<EncodeData>();
 
   int? _currentExampleIndex;
 
@@ -36,6 +37,7 @@ class _ConversionTabState extends State<ConversionTab>
   void initState() {
     _decodeInputManager.initState();
     _decodeInputManager.addListener(() => setState(() {}));
+
     _encodeRMInputManager.initState();
     _encodeRMInputManager.addListener(() => setState(() {}));
     _encodeRMInputManager.textController.addListener(() {
@@ -45,6 +47,9 @@ class _ConversionTabState extends State<ConversionTab>
         setState(() => _currentExampleIndex = null);
       }
     });
+
+    _encodeListOrPairInputManager.initState();
+    _encodeListOrPairInputManager.addListener(() => setState(() {}));
     super.initState();
   }
 
@@ -62,11 +67,15 @@ class _ConversionTabState extends State<ConversionTab>
     final decodehasValidData = decodeData?.errors.isEmpty == true;
     final encodeRMData = _encodeRMInputManager.data;
     final encodeRMHasValidData = encodeRMData?.errors.isEmpty == true;
+    final encodeListOrPairData = _encodeListOrPairInputManager.data;
+    final encodeListOrPairHasValidData =
+        encodeListOrPairData?.errors.isEmpty == true;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListView(
         children: [
+          // MARK: Decode
           const MarkdownBody(
             data: MyMarkdownTexts.decodeMarkdown,
             fitContent: false,
@@ -156,6 +165,8 @@ class _ConversionTabState extends State<ConversionTab>
                 fitContent: false,
               ),
             ),
+
+          // MARK: RM Encode
           const Padding(
             padding: EdgeInsets.only(top: 12.0),
             child: MarkdownBody(
@@ -243,19 +254,6 @@ class _ConversionTabState extends State<ConversionTab>
                           },
                         );
                       }
-                      // FileIO.saveAsZip(
-                      //   MyText.encodeZip.text,
-                      //   [
-                      //     fn.Tuple2(
-                      //       MyText.responseJSON.text,
-                      //       '${encodeRMData?.json}',
-                      //     ),
-                      //     fn.Tuple2(
-                      //       MyText.responseMarkdown.text,
-                      //       '${encodeRMData?.toMarkdown()}',
-                      //     ),
-                      //   ],
-                      // );
                     },
                     child: SizedBox(
                       height: 64.0,
@@ -388,6 +386,104 @@ class _ConversionTabState extends State<ConversionTab>
                 styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
                 data: encodeRMData.toMarkdown(),
                 selectable: true,
+                fitContent: false,
+              ),
+            ),
+
+          // MARK: Pair/List Encode
+          const Padding(
+            padding: EdgeInsets.only(top: 12.0),
+            child: MarkdownBody(
+              data: MyMarkdownTexts.encodePairOrListMarkdown,
+              fitContent: false,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _encodeListOrPairInputManager.textController,
+                    decoration: InputDecoration(
+                      hintText: _encodeListOrPairInputManager
+                                  .currentSearchedInput !=
+                              null
+                          ? 'Click "${MyText.convert.text}" to restore the previous input'
+                          : null,
+                    ),
+                    maxLines: null,
+                  ),
+                ),
+                const SizedBox(width: 12.0),
+                Button(
+                  enabled: _encodeListOrPairInputManager.hasInput,
+                  colour: Theme.of(context).colorScheme.primary,
+                  onPressed: () => _encodeListOrPairInputManager.onQuery(
+                    RMAPI.encodeListOrPair,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(MyText.convert.text),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(Icons.arrow_circle_right_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12.0),
+                Button(
+                  enabled: encodeListOrPairHasValidData,
+                  colour: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => FileIO.saveAsZip(
+                    MyText.decodeZip.text,
+                    [
+                      fn.Tuple2(
+                        MyText.responseJSON.text,
+                        '${encodeListOrPairData?.json}',
+                      ),
+                      fn.Tuple2(
+                        MyText.responseMarkdown.text,
+                        '${encodeListOrPairData?.toMarkdown()}',
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Text(MyText.download.text),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(Icons.download_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12.0),
+                Button(
+                  enabled: encodeListOrPairHasValidData ||
+                      _encodeListOrPairInputManager.hasInput,
+                  colour: Theme.of(context).colorScheme.tertiary,
+                  onPressed: () => _encodeListOrPairInputManager.onReset(),
+                  child: Row(
+                    children: [
+                      Text(MyText.reset.text),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Icon(Icons.restore_outlined),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (encodeListOrPairData != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: MarkdownBody(
+                selectable: true,
+                data: encodeListOrPairData.toMarkdown(),
                 fitContent: false,
               ),
             ),

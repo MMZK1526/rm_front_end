@@ -96,6 +96,20 @@ ${showOptionalNumber(regMach!)}
 ''');
     }
 
+    if (pair != null) {
+      sb.write('''
+### Encoding from Pair:
+${showOptionalNumber(pair!)}
+''');
+    }
+
+    if (list != null) {
+      sb.write('''
+### Encoding from List:
+${showOptionalNumber(list!)}
+''');
+    }
+
     return sb.toString();
   }
 }

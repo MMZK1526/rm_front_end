@@ -42,4 +42,20 @@ class RMAPI {
       return EncodeData(errors: [MyText.connectionErr.text, '$e']);
     }
   }
+
+  static Future<EncodeData> encodeListOrPair(String args) async {
+    try {
+      List<String> argList =
+          args.replaceAll(';', ' ').replaceAll(',', ' ').split(' ');
+      final url = Uri.https(baseUrl, 'encode');
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode({'args': argList}),
+      );
+      return EncodeData.fromJSON(jsonDecode(response.body));
+    } catch (e) {
+      return EncodeData(errors: [MyText.connectionErr.text, '$e']);
+    }
+  }
 }

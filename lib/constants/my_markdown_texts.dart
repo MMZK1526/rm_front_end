@@ -106,6 +106,11 @@ Either select from one of the examples, or enter/upload your custom Register Mac
 Click the "Help" button for syntax guide.
 """;
 
-  static const encodeListPairMarkdown = """
+  static const encodePairOrListMarkdown = """
+## Pair/List Encoding
+
+Convert a pair or a list of natural numbers to a Gödel number.
+
+Please separate the numbers by spaces, commas, or semicolons.
 """;
 }
