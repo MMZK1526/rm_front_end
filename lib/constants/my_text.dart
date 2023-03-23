@@ -12,7 +12,6 @@ enum MyText {
   help,
 
   connectionErr,
-  connectionErrContent,
   uploadErr,
 
   responseJSON,
@@ -46,8 +45,6 @@ extension MyTextExtension on MyText {
         return 'Help';
       case MyText.connectionErr:
         return 'Connection Error';
-      case MyText.connectionErrContent:
-        return 'Failed to connect to the back-end. The functionalities may not work.';
       case MyText.uploadErr:
         return 'Upload Error';
       case MyText.responseJSON:

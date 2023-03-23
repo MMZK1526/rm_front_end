@@ -3,10 +3,20 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 
 class InputManager<T> extends ChangeNotifier {
+  /// The text controller for the input field.
   final textController = TextEditingController();
+
+  /// Whether the input field has any input.
   bool _hasInput = false;
+
+  /// The current searched input.
   String? _currentSearchedInput;
+
+  /// The data returned from the callback.
   T? _data;
+
+  /// The timestamp of the latest request.
+  int _timestamp = DateTime.now().millisecondsSinceEpoch;
 
   bool get hasInput => _hasInput;
   String? get currentSearchedInput => _currentSearchedInput;
@@ -39,7 +49,16 @@ class InputManager<T> extends ChangeNotifier {
       }
       textController.text = curInput;
     } else {
+      final curTimestamp = DateTime.now().millisecondsSinceEpoch;
+      _timestamp = curTimestamp;
+
       final response = await callback(inputText);
+
+      // If the response is not the latest one, ignore it.
+      if (curTimestamp < _timestamp) {
+        return;
+      }
+
       _currentSearchedInput = inputText;
       _data = response;
     }
