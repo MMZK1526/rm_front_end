@@ -1,3 +1,6 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
 import 'package:dartz/dartz.dart' as fn;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -360,7 +363,10 @@ class _ConversionTabState extends State<ConversionTab>
                 Expanded(
                   child: Button(
                     colour: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {},
+                    onPressed: () => html.window.open(
+                      'https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax',
+                      'new tab',
+                    ),
                     child: SizedBox(
                       height: 64.0,
                       child: Row(
