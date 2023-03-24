@@ -22,6 +22,8 @@ class InputManager<T> extends ChangeNotifier {
   String? get currentSearchedInput => _currentSearchedInput;
   T? get data => _data;
 
+  /// Initialise the internal [textController] and add a listener that triggers
+  /// when the emptyness of the input text changes.
   void initState() {
     textController.addListener(() {
       final hasInput =
@@ -39,9 +41,11 @@ class InputManager<T> extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Query using the callback with the input text.
   Future<void> onQuery(FutureOr<T?> Function(String) callback) async {
     final inputText = textController.text;
 
+    // If the input text is empty, use the current searched input.
     if (inputText.isEmpty) {
       final curInput = _currentSearchedInput;
       if (curInput == null) {
@@ -66,6 +70,7 @@ class InputManager<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Clear the input text and reset the data.
   void onReset() {
     textController.clear();
     _hasInput = false;
