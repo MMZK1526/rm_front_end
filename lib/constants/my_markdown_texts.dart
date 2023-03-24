@@ -103,7 +103,7 @@ Convert a Register Machine to a list and a Gödel number.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 
-Click the "Help" button for syntax guide.
+Click the "[Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax)" button for syntax guide.
 """;
 
   static const encodePairOrListMarkdown = """

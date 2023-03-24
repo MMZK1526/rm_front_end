@@ -170,10 +170,15 @@ class _ConversionTabState extends State<ConversionTab>
             ),
 
           // MARK: RM Encode
-          const Padding(
-            padding: EdgeInsets.only(top: 12.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
             child: MarkdownBody(
               data: MyMarkdownTexts.encodeRMmarkdown,
+              onTapLink: (text, href, title) {
+                if (href != null) {
+                  html.window.open(href, 'new tab');
+                }
+              },
               fitContent: false,
             ),
           ),
