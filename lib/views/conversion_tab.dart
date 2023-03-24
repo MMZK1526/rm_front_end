@@ -413,6 +413,9 @@ class _ConversionTabState extends State<ConversionTab>
                           : null,
                     ),
                     maxLines: null,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9;, ]')),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 12.0),

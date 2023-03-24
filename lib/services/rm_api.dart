@@ -10,9 +10,10 @@ class RMAPI {
   static const devBaseUrl = 'http://0.0.0.0:8080';
   static const releaseBaseUrl = 'https://ktor-rm.herokuapp.com';
   static const headers = {'Content-Type': 'application/json'};
+  static const useLocal = false;
 
   static getBaseUrl() {
-    if (kDebugMode) {
+    if (kDebugMode && useLocal) {
       return devBaseUrl;
     }
 
@@ -56,7 +57,7 @@ class RMAPI {
   static Future<EncodeData> encodeListOrPair(String args) async {
     try {
       List<String> argList =
-          args.replaceAll(';', ' ').replaceAll(',', ' ').split(' ');
+          args.replaceAll(RegExp('[;, ]+'), ' ').trim().split(' ');
       final url = Uri.parse(getBaseUrl() + '/encode');
       final response = await http.post(
         url,
