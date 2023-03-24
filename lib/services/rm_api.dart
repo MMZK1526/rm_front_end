@@ -1,17 +1,27 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/models/decode_data.dart';
 import 'package:rm_front_end/models/encode_data.dart';
 
 class RMAPI {
-  static const baseUrl = 'ktor-rm.herokuapp.com';
+  static const devBaseUrl = 'http://0.0.0.0:8080';
+  static const releaseBaseUrl = 'https://ktor-rm.herokuapp.com';
   static const headers = {'Content-Type': 'application/json'};
+
+  static getBaseUrl() {
+    if (kDebugMode) {
+      return devBaseUrl;
+    }
+
+    return releaseBaseUrl;
+  }
 
   static Future<bool> initialise() async {
     try {
-      final url = Uri.https(baseUrl);
+      final url = Uri.parse(getBaseUrl());
       await http.get(url);
       return true;
     } catch (_) {
@@ -21,7 +31,7 @@ class RMAPI {
 
   static Future<DecodeData> decode(String num) async {
     try {
-      final url = Uri.https(baseUrl, 'decode');
+      final url = Uri.parse(getBaseUrl() + '/decode');
       final response = await http.post(url, body: num);
       return DecodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
@@ -31,7 +41,7 @@ class RMAPI {
 
   static Future<EncodeData> encodeRM(String rm) async {
     try {
-      final url = Uri.https(baseUrl, 'encode');
+      final url = Uri.parse(getBaseUrl() + '/encode');
       final response = await http.post(
         url,
         headers: headers,
@@ -47,7 +57,7 @@ class RMAPI {
     try {
       List<String> argList =
           args.replaceAll(';', ' ').replaceAll(',', ' ').split(' ');
-      final url = Uri.https(baseUrl, 'encode');
+      final url = Uri.parse(getBaseUrl() + '/encode');
       final response = await http.post(
         url,
         headers: headers,

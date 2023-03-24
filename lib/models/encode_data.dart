@@ -71,7 +71,7 @@ class EncodeData {
     }
 
     if (errors.isNotEmpty) {
-      return 'Error during decoding:\n\n${errors.join('\n\n')}';
+      return 'Error during encoding:\n\n${errors.join('\n\n')}';
     }
 
     final sb = StringBuffer();
