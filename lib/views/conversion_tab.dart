@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rm_front_end/components/button.dart';
+import 'package:rm_front_end/components/my_markdown_body.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/constants/rm_examples.dart';
@@ -82,7 +83,7 @@ class _ConversionTabState extends State<ConversionTab>
       child: ListView(
         children: [
           // MARK: Decode
-          const MarkdownBody(
+          const MyMarkdownBody(
             data: MyMarkdownTexts.decodeMarkdown,
             fitContent: false,
           ),
@@ -165,7 +166,7 @@ class _ConversionTabState extends State<ConversionTab>
           if (decodeData != null)
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
-              child: MarkdownBody(
+              child: MyMarkdownBody(
                 selectable: true,
                 data: decodeData.toMarkdown(),
                 fitContent: false,
@@ -175,13 +176,9 @@ class _ConversionTabState extends State<ConversionTab>
           // MARK: RM Encode
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: MarkdownBody(
+            child: MyMarkdownBody(
               data: MyMarkdownTexts.encodeRMmarkdown,
-              onTapLink: (text, href, title) {
-                if (href != null) {
-                  html.window.open(href, 'new tab');
-                }
-              },
+              callbackBinder: widget.markdownCallbackBinder,
               fitContent: false,
             ),
           ),
@@ -396,7 +393,7 @@ class _ConversionTabState extends State<ConversionTab>
           if (encodeRMData != null)
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
-              child: MarkdownBody(
+              child: MyMarkdownBody(
                 styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
                 data: encodeRMData.toMarkdown(),
                 selectable: true,
@@ -407,7 +404,7 @@ class _ConversionTabState extends State<ConversionTab>
           // MARK: Pair/List Encode
           const Padding(
             padding: EdgeInsets.only(top: 12.0),
-            child: MarkdownBody(
+            child: MyMarkdownBody(
               data: MyMarkdownTexts.encodePairOrListMarkdown,
               fitContent: false,
             ),
@@ -498,7 +495,7 @@ class _ConversionTabState extends State<ConversionTab>
           if (encodeListOrPairData != null)
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
-              child: MarkdownBody(
+              child: MyMarkdownBody(
                 selectable: true,
                 data: encodeListOrPairData.toMarkdown(),
                 fitContent: false,
