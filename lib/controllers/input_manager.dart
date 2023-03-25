@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
+/// Manage the input field and the data returned from the callback.
 class InputManager<T> extends ChangeNotifier {
   /// The text controller for the input field.
   final textController = TextEditingController();

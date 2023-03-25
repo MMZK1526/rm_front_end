@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/views/conversion_tab.dart';
 import 'package:rm_front_end/views/introduction_tab.dart';
 import 'package:rm_front_end/views/simulation_tab.dart';
@@ -84,6 +85,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     vsync: this,
   );
 
+  final markdownCallbackBinder = CallbackBinder<String>();
+
+  @override
+  void initState() {
+    markdownCallbackBinder[MyText.convert.text] = () {
+      _tabController.animateTo(1);
+    };
+    markdownCallbackBinder[MyText.simulate.text] = () {
+      _tabController.animateTo(2);
+    };
+    super.initState();
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -120,10 +134,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           child: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabController,
-            children: const [
-              IntroductionTab(),
-              ConversionTab(),
-              SimulationTab(),
+            children: [
+              IntroductionTab(markdownCallbackBinder: markdownCallbackBinder),
+              ConversionTab(markdownCallbackBinder: markdownCallbackBinder),
+              const SimulationTab(),
             ],
           ),
         ),

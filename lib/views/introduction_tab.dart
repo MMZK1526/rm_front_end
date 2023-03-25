@@ -1,22 +1,18 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-
 import 'package:flutter/widgets.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:rm_front_end/components/my_markdown.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
+import 'package:rm_front_end/controllers/callback_binder.dart';
 
 class IntroductionTab extends StatelessWidget {
-  const IntroductionTab({super.key});
+  const IntroductionTab({super.key, this.markdownCallbackBinder});
+
+  final CallbackBinder<String>? markdownCallbackBinder;
 
   @override
   Widget build(BuildContext context) {
-    return Markdown(
+    return MyMarkdown(
       data: MyMarkdownTexts.introMarkdown,
-      onTapLink: (text, href, title) {
-        if (href != null) {
-          html.window.open(href, 'new tab');
-        }
-      },
+      callbackBinder: markdownCallbackBinder,
     );
   }
 }

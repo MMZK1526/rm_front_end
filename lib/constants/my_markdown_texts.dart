@@ -4,7 +4,7 @@ class MyMarkdownTexts {
 
 This website offers simulation and Gödelisation for **Register Machines**. As a part of the "Models of Computation" syllabus at Imperial College, I made this tool (originally as a CLI written in Haskell) during the term. Since then, I have decided to hide away the Haskell complications and release it as a website so that it can be more accessible.
 
-A good way to start is to click on the "Simulation" tab and check out the examples there : )
+A good way to start is to click on the [Simulation](!!Simulate) tab and check out the examples there : )
 
 This page contains a short description of what are Register Machines and how to use this website. For more information, please check out [here](https://github.com/sorrowfulT-Rex/Haskell-RM#readme).
 
@@ -36,7 +36,7 @@ Despite its first appearance, Register Machines are actually very powerful: the 
 
 ## Performance
 
-As one may imagine, Register Machines are in general very inefficient since it can increment or decrement at most one register at a time. For example (they are available in the "Simulation" tab), the adder machine which computes `f(x, y) = x + y` takes `2(x + y) + 3` steps, and the multiplier machine which computes `f(x, y) = xy` takes `5xy + 3x + 2` steps. If we take the input size as the number of digits the inputs have, then these two "trivial" functions both have exponential time complexity.
+As one may imagine, Register Machines are in general very inefficient since it can increment or decrement at most one register at a time. For example (they are available in the [Simulation](!!Simulate) tab), the adder machine which computes `f(x, y) = x + y` takes `2(x + y) + 3` steps, and the multiplier machine which computes `f(x, y) = xy` takes `5xy + 3x + 2` steps. If we take the input size as the number of digits the inputs have, then these two "trivial" functions both have exponential time complexity.
 
 As a result, a naïve Register Machine simulation is pretty useless except for extremely small inputs. In my implementation, the simulator analyses the control flow of the machine, detecting execution cycles, and execute the iterations in one go. For example, the adder machine consists of a R0-R1 cycle and a R0-R2 cycle where the contents of both inputs "flow" into R0. With my optimisation, each cycle only consists of one step during the simulation so that the execution has *de juro* constant-time.
 
@@ -85,7 +85,7 @@ Finally, once we encode each line of a Register Machine into a number, we can th
 
 If we convert a natual number to a Register Machine, then most likely it will contain instruction that makes no sense, for example jumping to a non-existing line. This does not cause any problem, however, since we treat bad line number as Halt instructions.
 
-Go to the "Gödel Number Conversion" tab for automated conversion tools.
+Go to the [Gödel Number Conversion](!!Convert) tab for automated conversion tools.
 """;
 
   static const decodeMarkdown = """
@@ -103,7 +103,7 @@ Convert a Register Machine to a list and a Gödel number.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 
-Click the "[Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax)" button for syntax guide.
+Click the [Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax) button for syntax guide.
 """;
 
   static const encodePairOrListMarkdown = """

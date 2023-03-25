@@ -9,6 +9,7 @@ import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/constants/rm_examples.dart';
+import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/models/decode_data.dart';
 import 'package:rm_front_end/models/encode_data.dart';
@@ -16,7 +17,9 @@ import 'package:rm_front_end/utilities/file_io.dart';
 import 'package:rm_front_end/services/rm_api.dart';
 
 class ConversionTab extends StatefulWidget {
-  const ConversionTab({super.key});
+  const ConversionTab({super.key, this.markdownCallbackBinder});
+
+  final CallbackBinder<String>? markdownCallbackBinder;
 
   @override
   State<ConversionTab> createState() => _ConversionTabState();
