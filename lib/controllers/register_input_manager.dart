@@ -33,6 +33,7 @@ class RegisterInputManager extends ChangeNotifier {
   TextEditingController getController(int index) =>
       _registerInputManagers[index].textController;
 
+  /// Initialise the [InputManager]s for the four initial register input fields.
   void initState() {
     for (final im in _registerInputManagers) {
       im.dispose();
@@ -58,11 +59,13 @@ class RegisterInputManager extends ChangeNotifier {
     super.dispose();
   }
 
+  /// Reset the register input fields.
   void onReset() {
     initState();
     notifyListeners();
   }
 
+  /// Add a new register input field.
   void onAddRegister() {
     final im = InputManager();
     im.initState();
@@ -80,6 +83,10 @@ class RegisterInputManager extends ChangeNotifier {
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
   }
 
+  /// Scroll to the end of the register input fields to show the new register.
+  ///
+  /// This is called after the frame is rendered because the max scroll position
+  /// is not updated until after the frame is rendered.
   void onPostFrame() {
     if (_scrollToEnd) {
       _scrollToEnd = false;
