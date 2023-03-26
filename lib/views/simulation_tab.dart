@@ -14,6 +14,7 @@ import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/controllers/register_input_manager.dart';
 import 'package:rm_front_end/models/simulate_data.dart';
+import 'package:rm_front_end/services/rm_api.dart';
 import 'package:rm_front_end/utilities/file_io.dart';
 
 class SimulationTab extends StatefulWidget {
@@ -151,9 +152,12 @@ class _SimulationTabState extends State<SimulationTab>
                       physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics(),
                       ),
-                      separatorBuilder: (context, _) =>
-                          const SizedBox(width: 24.0),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(width: index == 0 ? 0.0 : 24.0),
                       itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return const SizedBox.shrink();
+                        }
                         return SizedBox(
                           width: 240.0,
                           child: Row(
@@ -240,7 +244,12 @@ class _SimulationTabState extends State<SimulationTab>
                   child: Button(
                     enabled: _simulateInputManager.hasInput,
                     colour: Theme.of(context).colorScheme.primary,
-                    onPressed: () {},
+                    onPressed: () => _simulateInputManager.onQuery(
+                      (rm) => RMAPI.simulate(
+                        rm,
+                        _registerInputManager.registerValues,
+                      ),
+                    ),
                     child: SizedBox(
                       height: 64.0,
                       child: Row(
@@ -345,6 +354,15 @@ class _SimulationTabState extends State<SimulationTab>
               ],
             ),
           ),
+          if (simulateData != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0),
+              child: MyMarkdownBody(
+                selectable: true,
+                data: simulateData.toMarkdown(),
+                fitContent: false,
+              ),
+            ),
         ],
       ),
     );

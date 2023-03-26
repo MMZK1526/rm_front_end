@@ -33,6 +33,13 @@ class RegisterInputManager extends ChangeNotifier {
   /// The number of register input fields.
   int get registerCount => _registerInputManagers.length;
 
+  /// The list of register values, replacing empty inputs with "0".
+  List<String> get registerValues => _registerInputManagers
+      .map(
+        (im) => im.textController.text.isEmpty ? '0' : im.textController.text,
+      )
+      .toList();
+
   /// Initialise the [InputManager]s for the four initial register input fields.
   void initState() {
     for (final im in _registerInputManagers) {

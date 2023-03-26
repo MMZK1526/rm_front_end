@@ -5,12 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:rm_front_end/constants/my_text.dart';
 import 'package:rm_front_end/models/decode_data.dart';
 import 'package:rm_front_end/models/encode_data.dart';
+import 'package:rm_front_end/models/simulate_data.dart';
 
 class RMAPI {
   static const devBaseUrl = 'http://0.0.0.0:8080';
   static const releaseBaseUrl = 'https://ktor-rm.herokuapp.com';
   static const headers = {'Content-Type': 'application/json'};
-  static const useLocal = false;
+  static const useLocal = true;
 
   /// Get the base URL of the API depending on the build mode.
   static getBaseUrl() {
@@ -72,6 +73,29 @@ class RMAPI {
       return EncodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
       return EncodeData(errors: [MyText.connectionErr.text, '$e']);
+    }
+  }
+
+  /// Simulate API.
+  static Future<SimulateData> simulate(
+    String code,
+    List<String> args, {
+    bool startFromR0 = true,
+  }) async {
+    try {
+      final url = Uri.parse(getBaseUrl() + '/simulate');
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode({
+          'code': code,
+          'args': args,
+          'startFromR0': startFromR0,
+        }),
+      );
+      return SimulateData.fromJSON(jsonDecode(response.body));
+    } catch (e) {
+      return SimulateData(errors: [MyText.connectionErr.text, '$e']);
     }
   }
 }
