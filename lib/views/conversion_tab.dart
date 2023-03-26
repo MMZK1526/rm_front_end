@@ -20,6 +20,8 @@ import 'package:rm_front_end/services/rm_api.dart';
 class ConversionTab extends StatefulWidget {
   const ConversionTab({super.key, this.markdownCallbackBinder});
 
+  /// The callback binder for the [MyMarkdownBody] widgets. It determines the
+  /// behaviour for custom links in the Markdown text.
   final CallbackBinder<String>? markdownCallbackBinder;
 
   @override
@@ -32,8 +34,10 @@ class _ConversionTabState extends State<ConversionTab>
   final _encodeRMInputManager = InputManager<EncodeData>();
   final _encodeListOrPairInputManager = InputManager<EncodeData>();
 
+  /// The index of the currently selected RM example.
   int? _currentExampleIndex;
 
+  /// The set of all RM examples.
   final allExampleRMs =
       RMExamplesExtension.allExamples().map((e) => e.rm).toSet();
 

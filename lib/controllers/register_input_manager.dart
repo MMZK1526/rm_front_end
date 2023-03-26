@@ -21,6 +21,10 @@ class RegisterInputManager extends ChangeNotifier {
   /// If the register input fields should be scrolled to the end on post frame.
   bool _scrollToEnd = false;
 
+  /// Get the [TextEditingController] for the register input field at [index].
+  TextEditingController getController(int index) =>
+      _registerInputManagers[index].textController;
+
   /// If the register input fields are reset.
   bool get isRegisterInputResetted =>
       _registerInputManagers.length == initialRegisterInputCount &&
@@ -28,10 +32,6 @@ class RegisterInputManager extends ChangeNotifier {
 
   /// The number of register input fields.
   int get registerCount => _registerInputManagers.length;
-
-  /// Get the [TextEditingController] for the register input field at [index].
-  TextEditingController getController(int index) =>
-      _registerInputManagers[index].textController;
 
   /// Initialise the [InputManager]s for the four initial register input fields.
   void initState() {

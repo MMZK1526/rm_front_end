@@ -6,6 +6,8 @@ import 'package:rm_front_end/controllers/callback_binder.dart';
 class IntroductionTab extends StatelessWidget {
   const IntroductionTab({super.key, this.markdownCallbackBinder});
 
+  /// The callback binder for the [MyMarkdown] widget. It determines the
+  /// behaviour for custom links in the Markdown text.
   final CallbackBinder<String>? markdownCallbackBinder;
 
   @override

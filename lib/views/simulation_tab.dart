@@ -19,6 +19,8 @@ import 'package:rm_front_end/utilities/file_io.dart';
 class SimulationTab extends StatefulWidget {
   const SimulationTab({super.key, this.markdownCallbackBinder});
 
+  /// The callback binder for the [MyMarkdownBody] widgets. It determines the
+  /// behaviour for custom links in the Markdown text.
   final CallbackBinder<String>? markdownCallbackBinder;
 
   @override
@@ -30,8 +32,10 @@ class _SimulationTabState extends State<SimulationTab>
   final _simulateInputManager = InputManager<SimulateData>();
   final _registerInputManager = RegisterInputManager();
 
+  /// The index of the currently selected RM example.
   int? _currentExampleIndex;
 
+  /// The set of all RM examples.
   final allExampleRMs =
       RMExamplesExtension.allExamples().map((e) => e.rm).toSet();
 

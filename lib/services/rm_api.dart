@@ -12,6 +12,7 @@ class RMAPI {
   static const headers = {'Content-Type': 'application/json'};
   static const useLocal = false;
 
+  /// Get the base URL of the API depending on the build mode.
   static getBaseUrl() {
     if (kDebugMode && useLocal) {
       return devBaseUrl;
@@ -20,6 +21,7 @@ class RMAPI {
     return releaseBaseUrl;
   }
 
+  /// Check if the API is available.
   static Future<bool> initialise() async {
     try {
       final url = Uri.parse(getBaseUrl());
@@ -30,6 +32,7 @@ class RMAPI {
     }
   }
 
+  /// Decode API.
   static Future<DecodeData> decode(String num) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/decode');
@@ -40,6 +43,7 @@ class RMAPI {
     }
   }
 
+  /// Encode API for Register Machines.
   static Future<EncodeData> encodeRM(String rm) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/encode');
@@ -54,6 +58,7 @@ class RMAPI {
     }
   }
 
+  /// Encode API for Lists or Pairs.
   static Future<EncodeData> encodeListOrPair(String args) async {
     try {
       List<String> argList =

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Dynamically binds a [VoidCallback] to a key.
 class CallbackBinder<T> {
   final Map<T, VoidCallback> _listeners = {};
 

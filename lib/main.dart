@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       _tabController.animateTo(2);
     };
 
-    // Initialise the RM API.
+    // Ping the RM API since Heroku puts the server to sleep after inactivity.
     RMAPI.initialise();
 
     super.initState();
@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: [
               IntroductionTab(markdownCallbackBinder: markdownCallbackBinder),
               ConversionTab(markdownCallbackBinder: markdownCallbackBinder),
-              const SimulationTab(),
+              SimulationTab(markdownCallbackBinder: markdownCallbackBinder),
             ],
           ),
         ),
