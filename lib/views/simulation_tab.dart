@@ -1,3 +1,7 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
+import 'package:dartz/dartz.dart' as fn;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +14,7 @@ import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
 import 'package:rm_front_end/controllers/register_input_manager.dart';
 import 'package:rm_front_end/models/simulate_data.dart';
+import 'package:rm_front_end/utilities/file_io.dart';
 
 class SimulationTab extends StatefulWidget {
   const SimulationTab({super.key, this.markdownCallbackBinder});
@@ -22,8 +27,6 @@ class SimulationTab extends StatefulWidget {
 
 class _SimulationTabState extends State<SimulationTab>
     with AutomaticKeepAliveClientMixin<SimulationTab> {
-  static const initialRegisterInputCount = 4;
-
   final _simulateInputManager = InputManager<SimulateData>();
   final _registerInputManager = RegisterInputManager();
 
@@ -68,7 +71,7 @@ class _SimulationTabState extends State<SimulationTab>
     });
 
     final simulateData = _simulateInputManager.data;
-    final simlateHasValidData = simulateData?.errors.isEmpty == true;
+    final simulateHasValidData = simulateData?.errors.isEmpty == true;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -203,6 +206,139 @@ class _SimulationTabState extends State<SimulationTab>
                   ),
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () => _simulateInputManager.onUpload(context),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.upload.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.upload_file_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    enabled: _simulateInputManager.hasInput,
+                    colour: Theme.of(context).colorScheme.primary,
+                    onPressed: () {},
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.simulate.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.computer_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    enabled: simulateHasValidData,
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () async {
+                      FileIO.saveAsZip(
+                        MyText.encodeZip.text,
+                        [
+                          fn.Tuple2(
+                            MyText.responseJSON.text,
+                            '${simulateData?.json}',
+                          ),
+                          fn.Tuple2(
+                            MyText.responseMarkdown.text,
+                            '${simulateData?.toMarkdown()}',
+                          ),
+                        ],
+                      );
+                    },
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.download.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.download_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    enabled:
+                        simulateHasValidData || _simulateInputManager.hasInput,
+                    colour: Theme.of(context).colorScheme.tertiary,
+                    onPressed: () => _simulateInputManager.onReset(),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.reset.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.restore_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 18.0),
+                Expanded(
+                  child: Button(
+                    colour: Theme.of(context).colorScheme.secondary,
+                    onPressed: () => html.window.open(
+                      'https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax',
+                      'new tab',
+                    ),
+                    child: SizedBox(
+                      height: 64.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(MyText.help.text),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Icon(Icons.help_outline_outlined),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

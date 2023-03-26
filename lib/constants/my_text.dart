@@ -21,6 +21,7 @@ enum MyText {
   responseMarkdown,
   encodeZip,
   decodeZip,
+  simlateZip,
 }
 
 extension MyTextExtension on MyText {
@@ -34,6 +35,7 @@ extension MyTextExtension on MyText {
         return 'Gödel Number Conversion';
       case MyText.simTab:
         return 'Simulation';
+
       case MyText.convert:
         return 'Convert';
       case MyText.upload:
@@ -52,10 +54,12 @@ extension MyTextExtension on MyText {
         return 'Add';
       case MyText.resetInputs:
         return 'Reset Inputs';
+
       case MyText.connectionErr:
         return 'Connection Error';
       case MyText.uploadErr:
         return 'Upload Error';
+
       case MyText.responseJSON:
         return 'response.json';
       case MyText.responseMarkdown:
@@ -64,6 +68,8 @@ extension MyTextExtension on MyText {
         return 'encode.zip';
       case MyText.decodeZip:
         return 'decode.zip';
+      case MyText.simlateZip:
+        return 'simulate.zip';
       default:
         return 'Unknown';
     }

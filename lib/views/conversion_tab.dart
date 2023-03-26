@@ -242,28 +242,7 @@ class _ConversionTabState extends State<ConversionTab>
                 Expanded(
                   child: Button(
                     colour: Theme.of(context).colorScheme.secondary,
-                    onPressed: () async {
-                      try {
-                        _encodeRMInputManager.textController.text =
-                            await FileIO.uploadToString(maxLength: 1919810);
-                      } catch (e) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(MyText.uploadErr.text),
-                              content: Text('$e'),
-                              actions: [
-                                Button(
-                                  child: Text(MyText.confirm.text),
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
+                    onPressed: () => _encodeRMInputManager.onUpload(context),
                     child: SizedBox(
                       height: 64.0,
                       child: Row(
