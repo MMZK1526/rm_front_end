@@ -189,7 +189,7 @@ class _SimulationTabState extends State<SimulationTab>
                     onPressed: () => _registerInputManager.onAddRegister(),
                     child: Row(
                       children: [
-                        Text(MyText.add.text),
+                        Text(MyText.addRegister.text),
                         const Padding(
                           padding: EdgeInsets.only(left: 8.0),
                           child: Icon(Icons.add_outlined),

@@ -50,7 +50,7 @@ class SimulateData {
       sb.write('Register|Value\n');
       sb.write('-|-\n');
       for (var i = 0; i < registerValues!.length; i++) {
-        sb.write('`R$i`|${registerValues![i]}\n');
+        sb.write('R$i|${registerValues![i]}\n');
       }
     }
 
