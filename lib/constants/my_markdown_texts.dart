@@ -116,7 +116,9 @@ Please separate the numbers by spaces, commas, or semicolons.
 
   static const simulateMarkdown = """
 ## Register Machine Simulation
-Simulate a the execution of a Register Machine and the initial register inputs.
+Simulate a the execution of a Register Machine with the given register inputs.
+
+Register values are zero if not specified.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 

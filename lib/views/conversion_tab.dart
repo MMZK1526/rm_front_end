@@ -70,6 +70,7 @@ class _ConversionTabState extends State<ConversionTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     final decodeData = _decodeInputManager.data;
     final decodehasValidData = decodeData?.errors.isEmpty == true;
     final encodeRMData = _encodeRMInputManager.data;

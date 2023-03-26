@@ -11,6 +11,8 @@ enum MyText {
   confirm,
   help,
   simulate,
+  add,
+  resetInputs,
 
   connectionErr,
   uploadErr,
@@ -46,6 +48,10 @@ extension MyTextExtension on MyText {
         return 'Help';
       case MyText.simulate:
         return 'Simulate';
+      case MyText.add:
+        return 'Add';
+      case MyText.resetInputs:
+        return 'Reset Inputs';
       case MyText.connectionErr:
         return 'Connection Error';
       case MyText.uploadErr:
