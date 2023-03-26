@@ -113,4 +113,13 @@ Convert a pair or a list of natural numbers to a Gödel number.
 
 Please separate the numbers by spaces, commas, or semicolons.
 """;
+
+  static const simulateMarkdown = """
+## Register Machine Simulation
+Simulate a the execution of a Register Machine and the initial register inputs.
+
+Either select from one of the examples, or enter/upload your custom Register Machine below.
+
+Click the [Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax) button for syntax guide.
+""";
 }
