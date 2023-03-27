@@ -90,6 +90,10 @@ class InputManager<T> extends ChangeNotifier {
       final curTimestamp = DateTime.now().millisecondsSinceEpoch;
       _timestamp = curTimestamp;
 
+      // Clear the current data since the new request is sent.
+      _data = null;
+      notifyListeners();
+
       final response = await callback(inputText);
 
       // If the response is not the latest one, ignore it.
