@@ -86,6 +86,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     vsync: this,
   );
 
+  /// The callback binder for the Markdown widgets. It determines the behaviour
+  /// for custom links in the Markdown text.
   final markdownCallbackBinder = CallbackBinder<String>();
 
   @override
