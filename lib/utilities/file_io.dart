@@ -14,10 +14,13 @@ class FileIO {
   ///
   /// If [maxLength] is provided, any file larger than that will be rejected.
   static Future<String> uploadToString({int? maxLength}) {
+    // Use a completer to return the result of the file upload, turning the
+    // callback-based API into a Future-based API.
     final completer = Completer<String>();
     final input = html.FileUploadInputElement();
-    input.click();
+    input.click(); // Open the file upload dialog.
 
+    // Listen for the file to be selected.
     input.onChange.listen((event) {
       final files = input.files;
       if (files == null || files.isEmpty) {
@@ -27,12 +30,14 @@ class FileIO {
       final file = files[0];
       final reader = html.FileReader();
       reader.readAsArrayBuffer(file);
-      reader.readyState;
       reader.onLoadEnd.listen((event) {
         final result = reader.result;
         if (result is Uint8List) {
           try {
+            // Decode the file content as a string.
             final content = utf8.decode(result, allowMalformed: false);
+
+            // Check if the file is too large.
             if (maxLength != null && content.length > maxLength) {
               completer.completeError(
                 'The content is too large (max length: $maxLength)!',
@@ -41,6 +46,7 @@ class FileIO {
               completer.complete(content);
             }
           } catch (e) {
+            // The file content is not a valid string.
             completer.completeError(
               'Failed to parse the file content as string!',
             );
@@ -63,6 +69,7 @@ class FileIO {
     final encoder = ZipEncoder();
     final archive = Archive();
 
+    // Add each content to the archive.
     for (final content in contents) {
       final encoded = utf8.encode(content.value2);
       ArchiveFile archiveFiles = ArchiveFile.stream(
@@ -80,6 +87,7 @@ class FileIO {
       output: outputStream,
     );
 
+    // Save the zip file.
     saveFromBytes(zipName, Uint8List.fromList(bytes!));
   }
 
@@ -89,14 +97,16 @@ class FileIO {
       html.Blob([bytes]),
     );
 
+    // Create an anchor element to download the file.
     final anchor = html.document.createElement('a') as html.AnchorElement
       ..href = url
       ..style.display = 'none'
       ..download = name;
     html.document.body?.children.add(anchor);
 
-    anchor.click();
+    anchor.click(); // Download the file by clicking the anchor.
 
+    // Remove the anchor from the DOM.
     html.document.body?.children.remove(anchor);
     html.Url.revokeObjectUrl(url);
   }
@@ -107,14 +117,16 @@ class FileIO {
       html.Blob([utf8.encode(content)]),
     );
 
+    // Create an anchor element to download the file.
     final anchor = html.document.createElement('a') as html.AnchorElement
       ..href = url
       ..style.display = 'none'
       ..download = name;
     html.document.body?.children.add(anchor);
 
-    anchor.click();
+    anchor.click(); // Download the file by clicking the anchor.
 
+    // Remove the anchor from the DOM.
     html.document.body?.children.remove(anchor);
     html.Url.revokeObjectUrl(url);
   }
