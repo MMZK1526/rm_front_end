@@ -64,6 +64,7 @@ class _SimulationTabState extends State<SimulationTab>
   @override
   void dispose() {
     _simulateInputManager.dispose();
+    _registerInputManager.dispose();
     super.dispose();
   }
 
