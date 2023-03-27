@@ -8,12 +8,14 @@ class DecodeData {
     required this.errors,
     this.list,
     this.pair,
+    this.line,
     this.regMach,
     this.json,
   });
 
   final List<String> errors;
   final List<String>? list;
+  final String? line;
   final fn.Tuple2<String, String>? pair;
   final String? regMach;
   final String? json;
@@ -33,6 +35,7 @@ class DecodeData {
           (pair) => fn.Tuple2(pair[0], pair[1]),
           rawPair,
         ),
+        line: json['decodeToLine'],
         regMach: json['decodeToRM'],
         json: jsonEncode(json),
       );
@@ -49,9 +52,9 @@ class DecodeData {
     }
 
     return '''
-List|Pair
--|-
-${list ?? 'none'}|${pair ?? 'none'}
+List|Pair|Line
+-|-|-
+${list ?? 'none'}|${pair ?? 'none'}|`${line ?? 'none'}`
 
 ### Register Machine:
 ```

@@ -11,7 +11,7 @@ class RMAPI {
   static const devBaseUrl = 'http://0.0.0.0:8080';
   static const releaseBaseUrl = 'https://ktor-rm.herokuapp.com';
   static const headers = {'Content-Type': 'application/json'};
-  static const useLocal = true;
+  static const useLocal = false;
 
   /// Get the base URL of the API depending on the build mode.
   static getBaseUrl() {
@@ -77,11 +77,7 @@ class RMAPI {
   }
 
   /// Simulate API.
-  static Future<SimulateData> simulate(
-    String code,
-    List<String> args, {
-    bool startFromR0 = true,
-  }) async {
+  static Future<SimulateData> simulate(String code, List<String> args) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/simulate');
       final response = await http.post(
@@ -90,7 +86,7 @@ class RMAPI {
         body: jsonEncode({
           'code': code,
           'args': args,
-          'startFromR0': startFromR0,
+          'startFromR0': true,
         }),
       );
       return SimulateData.fromJSON(jsonDecode(response.body));
