@@ -7,6 +7,8 @@ import 'package:rm_front_end/models/decode_data.dart';
 import 'package:rm_front_end/models/encode_data.dart';
 import 'package:rm_front_end/models/simulate_data.dart';
 
+/// API for Register Machines' conversion and simulation. The server is hosted
+/// on a separate Heroku dyno, which uses the Haskell CLI.
 class RMAPI {
   static const devBaseUrl = 'http://0.0.0.0:8080';
   static const releaseBaseUrl = 'https://ktor-rm.herokuapp.com';
@@ -37,6 +39,7 @@ class RMAPI {
   static Future<DecodeData> decode(String num) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/decode');
+      // This request is plain text, taking only a number.
       final response = await http.post(url, body: num);
       return DecodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
@@ -86,7 +89,7 @@ class RMAPI {
         body: jsonEncode({
           'code': code,
           'args': args,
-          'startFromR0': true,
+          'startFromR0': true, // Because we always provide R0.
         }),
       );
       return SimulateData.fromJSON(jsonDecode(response.body));
