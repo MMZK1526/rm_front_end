@@ -129,7 +129,7 @@ class _SimulationTabState extends State<SimulationTab>
                     decoration: InputDecoration(
                       hintText: _simulateInputManager.currentSearchedInput !=
                               null
-                          ? '# Click "${MyText.convert.text}" to restore the previous input'
+                          ? '# Click "${MyText.simulate.text}" to restore the previous input'
                           : null,
                     ),
                     minLines: 7,
