@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// A button with a customisable foreground colour and a round border. When
+/// disabled, the button is greyed out.
+///
+/// The button is disabled if [enabled] is `false`.
+///
+/// If the foreground [colour] is not specified, the button will use the primary
+/// colour of the current theme.
 class Button extends StatelessWidget {
   const Button({
     required this.onPressed,
