@@ -7,7 +7,12 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:dartz/dartz.dart' as fn;
 
+/// File upload/download utilities.
 class FileIO {
+  /// Upload a file from the user's computer, returning the content as a
+  /// [String].
+  ///
+  /// If [maxLength] is provided, any file larger than that will be rejected.
   static Future<String> uploadToString({int? maxLength}) {
     final completer = Completer<String>();
     final input = html.FileUploadInputElement();
@@ -49,6 +54,7 @@ class FileIO {
     return completer.future;
   }
 
+  /// Save several contents as a zip file with the given names.
   static void saveAsZip(
     String zipName,
     List<fn.Tuple2<String, String>> contents, {
@@ -77,6 +83,7 @@ class FileIO {
     saveFromBytes(zipName, Uint8List.fromList(bytes!));
   }
 
+  /// Save a [Uint8List] as a file with the given name.
   static void saveFromBytes(String name, Uint8List bytes) {
     final url = html.Url.createObjectUrlFromBlob(
       html.Blob([bytes]),
@@ -94,6 +101,7 @@ class FileIO {
     html.Url.revokeObjectUrl(url);
   }
 
+  /// Save a [String] as a file with the given name.
   static void saveFromString(String name, String content) {
     final url = html.Url.createObjectUrlFromBlob(
       html.Blob([utf8.encode(content)]),
