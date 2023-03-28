@@ -88,17 +88,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   /// The callback binder for the Markdown widgets. It determines the behaviour
   /// for custom links in the Markdown text.
-  final markdownCallbackBinder = CallbackBinder<String>();
+  final _markdownCallbackBinder = CallbackBinder<String>();
 
   @override
   void initState() {
-    // Bind the markdownCallbackBinder to the tabs.
-    markdownCallbackBinder[MyText.convert.text] = () {
-      _tabController.animateTo(1);
-    };
-    markdownCallbackBinder[MyText.simulate.text] = () {
-      _tabController.animateTo(2);
-    };
+    _markdownCallbackBinder.withCurrentGroup('main', () {
+      // Bind the markdownCallbackBinder to the tabs.
+      _markdownCallbackBinder[MyText.convert.text] = () {
+        _tabController.animateTo(1);
+      };
+      _markdownCallbackBinder[MyText.simulate.text] = () {
+        _tabController.animateTo(2);
+      };
+    });
 
     // Ping the RM API since Heroku puts the server to sleep after inactivity.
     RMAPI.initialise();
@@ -109,6 +111,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void dispose() {
     _tabController.dispose();
+    _markdownCallbackBinder.dispose();
     super.dispose();
   }
 
@@ -143,9 +146,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             physics: const NeverScrollableScrollPhysics(),
             controller: _tabController,
             children: [
-              IntroductionTab(markdownCallbackBinder: markdownCallbackBinder),
-              ConversionTab(markdownCallbackBinder: markdownCallbackBinder),
-              SimulationTab(markdownCallbackBinder: markdownCallbackBinder),
+              IntroductionTab(markdownCallbackBinder: _markdownCallbackBinder),
+              ConversionTab(markdownCallbackBinder: _markdownCallbackBinder),
+              SimulationTab(markdownCallbackBinder: _markdownCallbackBinder),
             ],
           ),
         ),

@@ -91,7 +91,7 @@ class MyMarkdown extends StatelessWidget {
       onTapLink: (text, href, title) {
         if (href != null) {
           if (href.startsWith('!!')) {
-            callbackBinder?[href.substring(2)]?.call();
+            callbackBinder?.invokeAt(href.substring(2));
           } else {
             html.window.open(href, 'new tab');
           }
