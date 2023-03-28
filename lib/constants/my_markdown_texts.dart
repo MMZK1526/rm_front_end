@@ -120,7 +120,7 @@ Simulate a the execution of a Register Machine with the given Register inputs.
 
 Register values are zero if not specified.
 
-The Registers start from R1 by default since R0 is treated as the output Register. If you want to set R0, please tick the "Start From R0" checkbox (TODO).
+The Registers start from R1 by default since R0 is treated as the output Register. If you want to set R0, please tick the "Start From R0" checkbox.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 

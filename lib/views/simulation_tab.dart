@@ -72,6 +72,9 @@ class _SimulationTabState extends State<SimulationTab>
   Widget build(BuildContext context) {
     super.build(context);
 
+    // This is required to ensure that _registerInputManager is updated after
+    // the ListView has been rebuilt. When it updates, it will scroll to the
+    // end of the register input list if a new register has been added.
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _registerInputManager.onPostFrame();
     });
@@ -91,28 +94,44 @@ class _SimulationTabState extends State<SimulationTab>
             padding: const EdgeInsets.only(top: 12.0),
             child: SizedBox(
               height: 36.0,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: RMExamplesExtension.allExamples().length,
-                physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                separatorBuilder: (context, _) => const SizedBox(width: 12.0),
-                itemBuilder: (context, index) {
-                  final example = RMExamplesExtension.allExamples()[index];
-                  return Button(
-                    colour: _currentExampleIndex == index
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      setState(() {
-                        _currentExampleIndex = index;
-                        _simulateInputManager.textController.text = example.rm;
-                      });
-                    },
-                    child: Text(example.text),
-                  );
-                },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: RMExamplesExtension.allExamples().length,
+                      physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      separatorBuilder: (context, _) =>
+                          const SizedBox(width: 12.0),
+                      itemBuilder: (context, index) {
+                        final example =
+                            RMExamplesExtension.allExamples()[index];
+                        return Button(
+                          colour: _currentExampleIndex == index
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.secondary,
+                          onPressed: () {
+                            setState(() {
+                              _currentExampleIndex = index;
+                              _simulateInputManager.textController.text =
+                                  example.rm;
+                            });
+                          },
+                          child: Text(example.text),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12.0),
+                  Text(MyText.startFromR0.text),
+                  Checkbox(
+                    value: _registerInputManager.canSetR0,
+                    onChanged: (value) => _registerInputManager.canSetR0 =
+                        value ?? _registerInputManager.canSetR0,
+                  ),
+                ],
               ),
             ),
           ),
@@ -153,10 +172,12 @@ class _SimulationTabState extends State<SimulationTab>
                       physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics(),
                       ),
-                      separatorBuilder: (context, index) =>
-                          SizedBox(width: index == 0 ? 0.0 : 24.0),
+                      separatorBuilder: (context, index) => SizedBox(
+                          width: !_registerInputManager.canSetR0 && index == 0
+                              ? 0.0
+                              : 24.0),
                       itemBuilder: (context, index) {
-                        if (index == 0) {
+                        if (!_registerInputManager.canSetR0 && index == 0) {
                           return const SizedBox.shrink();
                         }
                         return SizedBox(

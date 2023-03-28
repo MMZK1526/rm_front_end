@@ -13,6 +13,7 @@ enum MyText {
   simulate,
   addRegister,
   resetInputs,
+  startFromR0,
 
   connectionErr,
   uploadErr,
@@ -54,6 +55,8 @@ extension MyTextExtension on MyText {
         return 'Add Register';
       case MyText.resetInputs:
         return 'Reset Inputs';
+      case MyText.startFromR0:
+        return 'Start from R0: ';
 
       case MyText.connectionErr:
         return 'Connection Error';

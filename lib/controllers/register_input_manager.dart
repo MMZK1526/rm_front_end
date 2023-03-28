@@ -18,12 +18,27 @@ class RegisterInputManager extends ChangeNotifier {
   /// The [ScrollController] for the register input fields.
   final scrollController = ScrollController();
 
+  /// Whether Register R0 can be set.
+  bool _canSetR0 = false;
+
   /// If the register input fields should be scrolled to the end on post frame.
   bool _scrollToEnd = false;
 
   /// Get the [TextEditingController] for the register input field at [index].
   TextEditingController getController(int index) =>
       _registerInputManagers[index].textController;
+
+  /// Get whether Register R0 can be set.
+  bool get canSetR0 => _canSetR0;
+
+  /// Set whether Register R0 can be set.
+  set canSetR0(bool value) {
+    if (canSetR0 != value) {
+      _canSetR0 = value;
+      _registerInputManagers[0].textController.text = '';
+      notifyListeners();
+    }
+  }
 
   /// If the register input fields are reset.
   bool get isRegisterInputResetted =>
