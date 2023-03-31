@@ -87,6 +87,9 @@ class RMAPI {
     List<String> args, [
     int? showSteps,
   ]) async {
+    if (showSteps != null && showSteps > 114514) {
+      return SimulateData(errors: [MyText.tooManyStepsErr.text]);
+    }
     try {
       final url = Uri.parse(getBaseUrl() + '/simulate');
       final response = await http.post(

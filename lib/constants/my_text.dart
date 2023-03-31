@@ -19,6 +19,7 @@ enum MyText {
 
   connectionErr,
   uploadErr,
+  tooManyStepsErr,
 
   responseJSON,
   responseMarkdown,
@@ -68,7 +69,8 @@ extension MyTextExtension on MyText {
         return 'Connection Error';
       case MyText.uploadErr:
         return 'Upload Error';
-
+      case MyText.tooManyStepsErr:
+        return 'Too Many Steps: The Web APP can show up to 114514 steps. If you want more, please use the Haskell CLI available [here](https://github.com/sorrowfulT-Rex/Haskell-RM#readme).';
       case MyText.responseJSON:
         return 'response.json';
       case MyText.responseMarkdown:
