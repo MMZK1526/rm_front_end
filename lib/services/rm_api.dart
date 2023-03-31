@@ -80,7 +80,13 @@ class RMAPI {
   }
 
   /// Simulate API.
-  static Future<SimulateData> simulate(String code, List<String> args) async {
+  ///
+  /// Show the first [showSteps] steps if provided.
+  static Future<SimulateData> simulate(
+    String code,
+    List<String> args, [
+    int? showSteps,
+  ]) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/simulate');
       final response = await http.post(
@@ -89,6 +95,7 @@ class RMAPI {
         body: jsonEncode({
           'code': code,
           'args': args,
+          'showSteps': showSteps,
           'startFromR0': true, // Because we always provide R0.
         }),
       );

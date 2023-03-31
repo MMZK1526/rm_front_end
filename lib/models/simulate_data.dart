@@ -5,12 +5,16 @@ class SimulateData {
     required this.errors,
     this.steps,
     this.registerValues,
+    this.pcSnapshots,
+    this.registerSnapshots,
     this.json,
   });
 
   final List<String> errors;
   final String? steps;
   final List<String>? registerValues;
+  final List<String>? pcSnapshots;
+  final List<List<String>>? registerSnapshots;
   final String? json;
 
   static SimulateData fromJSON(dynamic json) {
@@ -24,6 +28,11 @@ class SimulateData {
         errors: json['errors'] ?? [],
         steps: json['steps'],
         registerValues: (json['registerValues'] as List<dynamic>?)?.cast(),
+        pcSnapshots: (json['pcSnapshots'] as List<dynamic>?)?.cast(),
+        registerSnapshots: (json['registerSnapshots'] as List<dynamic>?)
+            ?.map((row) => (row as List<dynamic>).cast())
+            .toList()
+            .cast(),
         json: jsonEncode(json),
       );
     } catch (e) {
