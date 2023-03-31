@@ -43,6 +43,7 @@ class SimulateData {
     }
   }
 
+  /// When [showAllSteps] is false (by default), it shows up to 50 steps.
   String toMarkdown({bool showAllSteps = false}) {
     if (errors.isNotEmpty) {
       return 'Error during simulation:\n\n${errors.join('\n\n')}';

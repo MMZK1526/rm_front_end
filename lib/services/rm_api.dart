@@ -87,6 +87,7 @@ class RMAPI {
     List<String> args, [
     int? showSteps,
   ]) async {
+    // Limit the number of steps to prevent the server from crashing.
     if (showSteps != null && showSteps > 114514) {
       return SimulateData(errors: [MyText.tooManyStepsErr.text]);
     }

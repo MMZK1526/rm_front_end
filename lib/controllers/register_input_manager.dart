@@ -3,9 +3,9 @@ import 'package:rm_front_end/controllers/input_manager.dart';
 
 /// A class that manages the input of registers for a Register Machine.
 ///
-/// Initially, there are 4 register input fields. When the user clicks the
-/// "Add" button, a new register input field is added. When the user clicks
-/// the "Reset Inputs" button, all register input fields are reset.
+/// Initially, there are 3 register input fields (4 if R0 is enabled). When the
+/// user clicks the "Add" button, a new register input field is added. When the
+/// user clicks the "Reset Inputs" button, all register input fields are reset.
 ///
 /// If a register value is not provided, it defaults to 0.
 class RegisterInputManager extends ChangeNotifier {
