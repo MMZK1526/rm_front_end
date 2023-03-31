@@ -125,12 +125,46 @@ class _SimulationTabState extends State<SimulationTab>
                     ),
                   ),
                   const SizedBox(width: 12.0),
-                  Text(MyText.startFromR0.text),
+                  Checkbox(
+                    value: _registerInputManager.isShowingSteps,
+                    onChanged: (value) =>
+                        _registerInputManager.onShowStepToggle(),
+                  ),
+                  Text(MyText.showFirst.text),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SizedBox(
+                      width: 60.0,
+                      child: TextFormField(
+                        enabled: _registerInputManager.isShowingSteps,
+                        controller: _registerInputManager.stepsController,
+                        textAlignVertical: TextAlignVertical.center,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(12.0),
+                          isDense: true,
+                          hintText: '${_registerInputManager.defaultSteps}',
+                          hintStyle:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        maxLines: 1,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text(MyText.steps.text),
+                  const SizedBox(width: 12.0),
                   Checkbox(
                     value: _registerInputManager.canSetR0,
                     onChanged: (value) => _registerInputManager.canSetR0 =
                         value ?? _registerInputManager.canSetR0,
                   ),
+                  Text(MyText.startFromR0.text),
                 ],
               ),
             ),
@@ -270,6 +304,7 @@ class _SimulationTabState extends State<SimulationTab>
                       (rm) => RMAPI.simulate(
                         rm,
                         _registerInputManager.registerValues,
+                        _registerInputManager.stepsToShow,
                       ),
                     ),
                     child: SizedBox(
@@ -308,7 +343,7 @@ class _SimulationTabState extends State<SimulationTab>
                           ),
                           fn.Tuple2(
                             MyText.responseMarkdown.text,
-                            '${simulateData?.toMarkdown()}',
+                            '${simulateData?.toMarkdown(showAllSteps: true)}',
                           ),
                         ],
                       );

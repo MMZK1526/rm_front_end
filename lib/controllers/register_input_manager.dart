@@ -15,11 +15,20 @@ class RegisterInputManager extends ChangeNotifier {
   /// The list of [InputManager]s for the register input fields.
   final _registerInputManagers = <InputManager<void>>[];
 
+  /// The [TextEditingController] for the number of steps to show.
+  final stepsController = TextEditingController();
+
   /// The [ScrollController] for the register input fields.
   final scrollController = ScrollController();
 
+  /// The default number of steps to show.
+  final defaultSteps = 20;
+
   /// Whether Register R0 can be set.
   bool _canSetR0 = false;
+
+  /// If not null, show the first [stepsToShow] steps of the simulation.
+  bool _isShowingSteps = false;
 
   /// If the register input fields should be scrolled to the end on post frame.
   bool _scrollToEnd = false;
@@ -28,12 +37,26 @@ class RegisterInputManager extends ChangeNotifier {
   TextEditingController getController(int index) =>
       _registerInputManagers[index].textController;
 
+  /// Get whether simulation steps should be shown.
+  bool get isShowingSteps => _isShowingSteps;
+
+  /// Get the number of steps to show, if any.
+  int? get stepsToShow {
+    if (_isShowingSteps) {
+      final steps = int.tryParse(stepsController.text) ?? defaultSteps;
+      if (steps >= 0) {
+        return steps;
+      }
+    }
+    return null;
+  }
+
   /// Get whether Register R0 can be set.
   bool get canSetR0 => _canSetR0;
 
   /// Set whether Register R0 can be set.
   set canSetR0(bool value) {
-    if (canSetR0 != value) {
+    if (_canSetR0 != value) {
       _canSetR0 = value;
       _registerInputManagers[0].textController.text = '';
       notifyListeners();
@@ -77,6 +100,7 @@ class RegisterInputManager extends ChangeNotifier {
       im.dispose();
     }
     _registerInputManagers.clear();
+    stepsController.dispose();
     scrollController.dispose();
     super.dispose();
   }
@@ -103,6 +127,18 @@ class RegisterInputManager extends ChangeNotifier {
     // Scroll to the end of the register input fields to show the new register
     // input field.
     scrollController.jumpTo(scrollController.position.maxScrollExtent);
+  }
+
+  /// Invoked when the show steps checkbox is clicked.
+  void onShowStepToggle() {
+    _isShowingSteps = !_isShowingSteps;
+    notifyListeners();
+  }
+
+  /// Invoked when the can set R0 checkbox is clicked.
+  void onCanSetR0Toggle() {
+    _canSetR0 = !_canSetR0;
+    notifyListeners();
   }
 
   /// Scroll to the end of the register input fields to show the new register.

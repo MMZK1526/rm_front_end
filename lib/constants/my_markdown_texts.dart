@@ -125,5 +125,16 @@ The Registers start from R1 by default since R0 is treated as the output Registe
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 
 Click the [Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax) button for syntax guide.
+
+If the "Show First n Steps" checkbox is ticked, the simulator will only show the first n steps of the execution. If the Register Machine is not going to terminate, the simulator will stop immediately without reporting the result. If it not ticked (by default), the simulator will only report the result of the execution.
+""";
+
+  static const simulateUniversalMarkdown = """
+""";
+
+  static const convertMarkdown = """
+""";
+
+  static const helpMarkdown = """
 """;
 }

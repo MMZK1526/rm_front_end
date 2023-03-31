@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 class SimulateData {
   const SimulateData({
@@ -30,7 +31,7 @@ class SimulateData {
         registerValues: (json['registerValues'] as List<dynamic>?)?.cast(),
         pcSnapshots: (json['pcSnapshots'] as List<dynamic>?)?.cast(),
         registerSnapshots: (json['registerSnapshots'] as List<dynamic>?)
-            ?.map((row) => (row as List<dynamic>).cast())
+            ?.map((row) => (row as List<dynamic>).cast<String>())
             .toList()
             .cast(),
         json: jsonEncode(json),
@@ -42,7 +43,7 @@ class SimulateData {
     }
   }
 
-  String toMarkdown() {
+  String toMarkdown({bool showAllSteps = false}) {
     if (errors.isNotEmpty) {
       return 'Error during simulation:\n\n${errors.join('\n\n')}';
     }
@@ -60,6 +61,40 @@ class SimulateData {
       sb.write('-|-\n');
       for (var i = 0; i < registerValues!.length; i++) {
         sb.write('R$i|${registerValues![i]}\n');
+      }
+    }
+
+    if (pcSnapshots != null && registerSnapshots != null) {
+      final shownSteps =
+          showAllSteps ? pcSnapshots!.length : min(50, pcSnapshots!.length);
+      sb.write('### Execution Details:\n');
+      sb.write('Step|PC');
+      for (var i = 0; i < registerSnapshots![0].length; i++) {
+        sb.write('|R$i');
+      }
+      sb.write('\n');
+      sb.write('-|-');
+      for (var i = 0; i < registerSnapshots![0].length; i++) {
+        sb.write('|-');
+      }
+      sb.write('\n');
+      for (var i = 0; i < shownSteps; i++) {
+        sb.write('${i + 1}|${pcSnapshots![i]}');
+        for (final reg in registerSnapshots![i]) {
+          sb.write('|$reg');
+        }
+        sb.write('\n');
+      }
+
+      if (shownSteps < pcSnapshots!.length) {
+        sb.write('...|...');
+        for (var i = 0; i < registerSnapshots![0].length; i++) {
+          sb.write('|...');
+        }
+        sb.write('\n\n');
+        sb.write(
+          '* A maximum of 50 steps are shown here. The rest are available by clicking the "Download" button.\n',
+        );
       }
     }
 

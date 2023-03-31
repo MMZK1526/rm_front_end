@@ -22,7 +22,7 @@ final theme = ThemeData.dark(useMaterial3: true).copyWith(
   ),
   cardTheme: CardTheme(color: Colors.grey.shade800),
   inputDecorationTheme: const InputDecorationTheme(
-    hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey, height: 1.5),
+    hintStyle: TextStyle(fontSize: 18.0, color: Colors.grey, height: 1.5),
     border: OutlineInputBorder(),
     contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
   ),

@@ -14,6 +14,8 @@ enum MyText {
   addRegister,
   resetInputs,
   startFromR0,
+  showFirst,
+  steps,
 
   connectionErr,
   uploadErr,
@@ -56,7 +58,11 @@ extension MyTextExtension on MyText {
       case MyText.resetInputs:
         return 'Reset Inputs';
       case MyText.startFromR0:
-        return 'Start from R0: ';
+        return 'Start from R0';
+      case MyText.showFirst:
+        return 'Show First';
+      case MyText.steps:
+        return 'Steps';
 
       case MyText.connectionErr:
         return 'Connection Error';
