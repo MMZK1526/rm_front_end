@@ -3,6 +3,7 @@ enum RMExamples {
   adder,
   multiplier,
   collatz,
+  cycle,
   urm,
 }
 
@@ -12,6 +13,7 @@ extension RMExamplesExtension on RMExamples {
         RMExamples.adder,
         RMExamples.multiplier,
         RMExamples.collatz,
+        RMExamples.cycle,
         RMExamples.urm,
       ];
 
@@ -25,6 +27,8 @@ extension RMExamplesExtension on RMExamples {
         return 'Multiplier';
       case RMExamples.collatz:
         return 'Collatz';
+      case RMExamples.cycle:
+        return 'Cycle';
       case RMExamples.urm:
         return 'Universal Register Machine';
       default:
@@ -84,6 +88,12 @@ dumpR2:   R2- fillR1   countInc
 fillR1:   R1+ dumpR2
 reach1:   R0+ end
 end:      H''';
+      case RMExamples.cycle:
+        return '''
+L0: R1- L1 L3 # If R1 != 0, infinite cycle
+L1: R0+ L2
+L2: R1+ L0
+L3: ARRÊT''';
       case RMExamples.urm:
         return '''
 # The Universal Register Machine
