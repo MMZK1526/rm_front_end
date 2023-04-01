@@ -65,7 +65,9 @@ class SimulateData {
       }
     }
 
-    if (pcSnapshots != null && registerSnapshots != null) {
+    if (pcSnapshots != null &&
+        registerSnapshots != null &&
+        registerSnapshots!.isNotEmpty) {
       final shownSteps =
           showAllSteps ? pcSnapshots!.length : min(50, pcSnapshots!.length);
       sb.write('### Execution Details:\n');
