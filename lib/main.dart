@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _markdownCallbackBinder.withCurrentGroup('main', () {
+    _markdownCallbackBinder.withCurrentGroup(MyText.title.text, () {
       // Bind the markdownCallbackBinder to the tabs.
       _markdownCallbackBinder[MyText.convert.text] = () {
         _tabController.animateTo(1);

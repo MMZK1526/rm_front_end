@@ -43,8 +43,29 @@ class _SimulationTabState extends State<SimulationTab>
   @override
   bool get wantKeepAlive => true;
 
+  /// Downloads the JSON and Markdown responses for the simulation result.
+  void onDownload(SimulateData? data) async {
+    FileIO.saveAsZip(
+      MyText.simlateZip.text,
+      [
+        fn.Tuple2(MyText.responseJSON.text, '${data?.json}'),
+        fn.Tuple2(
+          MyText.responseMarkdown.text,
+          '${data?.toMarkdown(showAllSteps: true)}',
+        ),
+      ],
+    );
+  }
+
   @override
   void initState() {
+    widget.markdownCallbackBinder?.withCurrentGroup(MyText.simTab.text, () {
+      // Bind the download action for the the markdownCallbackBinder.
+      widget.markdownCallbackBinder?[MyText.download.text] = () {
+        onDownload(_simulateInputManager.data);
+      };
+    });
+
     _simulateInputManager.initState();
     _simulateInputManager.addListener(() => setState(() {}));
     _simulateInputManager.textController.addListener(() {
@@ -86,7 +107,8 @@ class _SimulationTabState extends State<SimulationTab>
       padding: const EdgeInsets.all(16.0),
       child: ListView(
         children: [
-          const MyMarkdownBody(
+          MyMarkdownBody(
+            callbackBinder: widget.markdownCallbackBinder,
             data: MyMarkdownTexts.simulateMarkdown,
             fitContent: false,
           ),
@@ -333,21 +355,7 @@ class _SimulationTabState extends State<SimulationTab>
                   child: Button(
                     enabled: simulateHasValidData,
                     colour: Theme.of(context).colorScheme.secondary,
-                    onPressed: () async {
-                      FileIO.saveAsZip(
-                        MyText.encodeZip.text,
-                        [
-                          fn.Tuple2(
-                            MyText.responseJSON.text,
-                            '${simulateData?.json}',
-                          ),
-                          fn.Tuple2(
-                            MyText.responseMarkdown.text,
-                            '${simulateData?.toMarkdown(showAllSteps: true)}',
-                          ),
-                        ],
-                      );
-                    },
+                    onPressed: () => onDownload(simulateData),
                     child: SizedBox(
                       height: 64.0,
                       child: Row(
@@ -415,6 +423,7 @@ class _SimulationTabState extends State<SimulationTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MyMarkdownBody(
+                callbackBinder: widget.markdownCallbackBinder,
                 selectable: true,
                 data: simulateData.toMarkdown(),
                 fitContent: false,

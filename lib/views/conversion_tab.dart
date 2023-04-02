@@ -88,7 +88,8 @@ class _ConversionTabState extends State<ConversionTab>
       child: ListView(
         children: [
           // MARK: Decode
-          const MyMarkdownBody(
+          MyMarkdownBody(
+            callbackBinder: widget.markdownCallbackBinder,
             data: MyMarkdownTexts.decodeMarkdown,
             fitContent: false,
           ),
@@ -172,6 +173,7 @@ class _ConversionTabState extends State<ConversionTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MyMarkdownBody(
+                callbackBinder: widget.markdownCallbackBinder,
                 selectable: true,
                 data: decodeData.toMarkdown(),
                 fitContent: false,
@@ -378,7 +380,7 @@ class _ConversionTabState extends State<ConversionTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MyMarkdownBody(
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+                callbackBinder: widget.markdownCallbackBinder,
                 data: encodeRMData.toMarkdown(),
                 selectable: true,
                 fitContent: false,
@@ -386,9 +388,10 @@ class _ConversionTabState extends State<ConversionTab>
             ),
 
           // MARK: Pair/List Encode
-          const Padding(
-            padding: EdgeInsets.only(top: 12.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0),
             child: MyMarkdownBody(
+              callbackBinder: widget.markdownCallbackBinder,
               data: MyMarkdownTexts.encodePairOrListMarkdown,
               fitContent: false,
             ),
@@ -480,6 +483,7 @@ class _ConversionTabState extends State<ConversionTab>
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: MyMarkdownBody(
+                callbackBinder: widget.markdownCallbackBinder,
                 selectable: true,
                 data: encodeListOrPairData.toMarkdown(),
                 fitContent: false,

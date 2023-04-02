@@ -96,7 +96,7 @@ class SimulateData {
         }
         sb.write('\n\n');
         sb.write(
-          '* A maximum of 50 steps are shown here. The rest are available by clicking the "Download" button.\n',
+          '* A maximum of 50 steps are shown here. The rest are available by clicking the [Download](!!Download) button.\n',
         );
       }
     }
