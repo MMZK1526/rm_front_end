@@ -9,6 +9,7 @@ import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/components/my_markdown_body.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/constants/my_themes.dart';
 import 'package:rm_front_end/constants/rm_examples.dart';
 import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
@@ -166,11 +167,6 @@ class _SimulationTabState extends State<SimulationTab>
                           contentPadding: const EdgeInsets.all(12.0),
                           isDense: true,
                           hintText: '${_registerInputManager.defaultSteps}',
-                          hintStyle:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
                         ),
                         maxLines: 1,
                         inputFormatters: [
@@ -197,9 +193,7 @@ class _SimulationTabState extends State<SimulationTab>
               children: [
                 Expanded(
                   child: TextFormField(
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontFamily: 'monospace',
-                        ),
+                    style: MyTheme.monospaceTheme.theme.textTheme.bodyLarge,
                     controller: _simulateInputManager.textController,
                     decoration: InputDecoration(
                       hintText: _simulateInputManager.currentSearchedInput !=

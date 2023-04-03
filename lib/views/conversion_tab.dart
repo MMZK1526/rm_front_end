@@ -9,6 +9,7 @@ import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/components/my_markdown_body.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
 import 'package:rm_front_end/constants/my_text.dart';
+import 'package:rm_front_end/constants/my_themes.dart';
 import 'package:rm_front_end/constants/rm_examples.dart';
 import 'package:rm_front_end/controllers/callback_binder.dart';
 import 'package:rm_front_end/controllers/input_manager.dart';
@@ -224,9 +225,7 @@ class _ConversionTabState extends State<ConversionTab>
               children: [
                 Expanded(
                   child: TextFormField(
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontFamily: 'monospace',
-                        ),
+                    style: MyTheme.monospaceTheme.theme.textTheme.bodyLarge,
                     controller: _encodeRMInputManager.textController,
                     decoration: InputDecoration(
                       hintText: _encodeRMInputManager.currentSearchedInput !=
