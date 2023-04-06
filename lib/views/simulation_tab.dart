@@ -392,7 +392,7 @@ class _SimulationTabState extends State<SimulationTab>
                   child: Button(
                     colour: Theme.of(context).colorScheme.secondary,
                     onPressed: () => html.window.open(
-                      'https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax',
+                      'https://github.com/MMZK1526/Haskell-RM#Syntax',
                       'new tab',
                     ),
                     child: SizedBox(
