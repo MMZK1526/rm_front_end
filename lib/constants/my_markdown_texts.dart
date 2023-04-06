@@ -6,7 +6,7 @@ This website offers simulation and Gödelisation for **Register Machines**. As a
 
 A good way to start is to click on the [Simulation](!!Simulate) tab and check out the examples there : )
 
-This page contains a short description of what are Register Machines and how to use this website. For more information, please check out [here](https://github.com/sorrowfulT-Rex/Haskell-RM#readme).
+This page contains a short description of what are Register Machines and how to use this website. For more information, please check out [here](https://github.com/MMZK1526/Haskell-RM#readme).
 
 ## Introduction
 
@@ -103,7 +103,7 @@ Convert a Register Machine to a list and a Gödel number.
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 
-Click the [Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax) button for syntax guide.
+Click the [Help](https://github.com/MMZK1526/Haskell-RM#Syntax) button for syntax guide.
 """;
 
   static const encodePairOrListMarkdown = """
@@ -124,7 +124,7 @@ The Registers start from R1 by default since R0 is treated as the output Registe
 
 Either select from one of the examples, or enter/upload your custom Register Machine below.
 
-Click the [Help](https://github.com/sorrowfulT-Rex/Haskell-RM#Syntax) button for syntax guide.
+Click the [Help](https://github.com/MMZK1526/Haskell-RM#Syntax) button for syntax guide.
 
 If the "Show First n Steps" checkbox is ticked, the simulator will only show the first n steps of the execution. If the Register Machine is not going to terminate, the simulator will stop immediately without reporting the result. If it not ticked (by default), the simulator will only report the result of the execution.
 """;
