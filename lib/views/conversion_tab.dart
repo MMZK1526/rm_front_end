@@ -4,7 +4,6 @@ import 'dart:html' as html;
 import 'package:dartz/dartz.dart' as fn;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:rm_front_end/components/button.dart';
 import 'package:rm_front_end/components/my_markdown_body.dart';
 import 'package:rm_front_end/constants/my_markdown_texts.dart';
