@@ -65,8 +65,13 @@ class RMAPI {
   /// Encode API for Lists or Pairs.
   static Future<EncodeData> encodeListOrPair(String args) async {
     try {
-      List<String> argList =
-          args.replaceAll(RegExp('[;, ]+'), ' ').trim().split(' ');
+      // The where is necessary since splitting the empty string returns [''].
+      List<String> argList = args
+          .replaceAll(RegExp('[;, ]+'), ' ')
+          .trim()
+          .split(' ')
+          .where((e) => e.isNotEmpty)
+          .toList();
       final url = Uri.parse(getBaseUrl() + '/encode');
       final response = await http.post(
         url,
