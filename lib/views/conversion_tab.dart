@@ -227,8 +227,9 @@ class _ConversionTabState extends State<ConversionTab>
                     style: MyTheme.monospaceTheme.theme.textTheme.bodyLarge,
                     controller: _encodeRMInputManager.textController,
                     decoration: InputDecoration(
-                      hintText: _encodeRMInputManager.currentSearchedInput !=
-                              null
+                      hintText: _encodeRMInputManager
+                                  .currentSearchedInput?.isNotEmpty ??
+                              false
                           ? '# Click "${MyText.convert.text}" to restore the previous input'
                           : null,
                     ),
@@ -265,7 +266,6 @@ class _ConversionTabState extends State<ConversionTab>
                 const SizedBox(width: 18.0),
                 Expanded(
                   child: Button(
-                    enabled: _encodeRMInputManager.hasInput,
                     colour: Theme.of(context).colorScheme.primary,
                     onPressed: () => _encodeRMInputManager.onQuery(
                       RMAPI.encodeRM,
@@ -403,8 +403,8 @@ class _ConversionTabState extends State<ConversionTab>
                     controller: _encodeListOrPairInputManager.textController,
                     decoration: InputDecoration(
                       hintText: _encodeListOrPairInputManager
-                                  .currentSearchedInput !=
-                              null
+                                  .currentSearchedInput?.isNotEmpty ??
+                              false
                           ? 'Click "${MyText.convert.text}" to restore the previous input'
                           : null,
                     ),
@@ -416,7 +416,6 @@ class _ConversionTabState extends State<ConversionTab>
                 ),
                 const SizedBox(width: 12.0),
                 Button(
-                  enabled: _encodeListOrPairInputManager.hasInput,
                   colour: Theme.of(context).colorScheme.primary,
                   onPressed: () => _encodeListOrPairInputManager.onQuery(
                     RMAPI.encodeListOrPair,

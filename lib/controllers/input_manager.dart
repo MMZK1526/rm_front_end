@@ -79,31 +79,33 @@ class InputManager<T> extends ChangeNotifier {
   Future<void> onQuery(FutureOr<T?> Function(String) callback) async {
     final inputText = textController.text;
 
-    // If the input text is empty, use the current searched input.
+    // If the input text is empty, restore the current searched input if it
+    // exists.
     if (inputText.isEmpty) {
       final curInput = _currentSearchedInput;
-      if (curInput == null) {
+      if (curInput != null) {
+        textController.text = curInput;
+        notifyListeners();
         return;
       }
-      textController.text = curInput;
-    } else {
-      final curTimestamp = DateTime.now().millisecondsSinceEpoch;
-      _timestamp = curTimestamp;
-
-      // Clear the current data since the new request is sent.
-      _data = null;
-      notifyListeners();
-
-      final response = await callback(inputText);
-
-      // If the response is not the latest one, ignore it.
-      if (curTimestamp < _timestamp) {
-        return;
-      }
-
-      _currentSearchedInput = inputText;
-      _data = response;
     }
+
+    final curTimestamp = DateTime.now().millisecondsSinceEpoch;
+    _timestamp = curTimestamp;
+
+    // Clear the current data since the new request is sent.
+    _data = null;
+    notifyListeners();
+
+    final response = await callback(inputText);
+
+    // If the response is not the latest one, ignore it.
+    if (curTimestamp < _timestamp) {
+      return;
+    }
+
+    _currentSearchedInput = inputText;
+    _data = response;
 
     notifyListeners();
   }
