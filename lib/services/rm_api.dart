@@ -40,7 +40,7 @@ class RMAPI {
     try {
       final url = Uri.parse(getBaseUrl() + '/decode');
       // This request is plain text, taking only a number.
-      final response = await http.post(url, body: num);
+      final response = await http.put(url, body: num);
       return DecodeData.fromJSON(jsonDecode(response.body));
     } catch (e) {
       return DecodeData(errors: [MyText.connectionErr.text, '$e']);
@@ -51,7 +51,7 @@ class RMAPI {
   static Future<EncodeData> encodeRM(String rm) async {
     try {
       final url = Uri.parse(getBaseUrl() + '/encode');
-      final response = await http.post(
+      final response = await http.put(
         url,
         headers: headers,
         body: jsonEncode({'code': rm}),
@@ -73,7 +73,7 @@ class RMAPI {
           .where((e) => e.isNotEmpty)
           .toList();
       final url = Uri.parse(getBaseUrl() + '/encode');
-      final response = await http.post(
+      final response = await http.put(
         url,
         headers: headers,
         body: jsonEncode({'args': argList}),
@@ -98,7 +98,7 @@ class RMAPI {
     }
     try {
       final url = Uri.parse(getBaseUrl() + '/simulate');
-      final response = await http.post(
+      final response = await http.put(
         url,
         headers: headers,
         body: jsonEncode({
